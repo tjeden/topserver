@@ -8,4 +8,15 @@ class FileExtension
     @output_file = output_file
     @delimeter = delimeter
   end
+
+  def get_data
+    #TODO I don't like this -2
+    source.gets(@delimeter)[0..-2]
+  end
+
+  private
+
+  def source
+    @source_file ||= File.new(@input_file, 'r')
+  end
 end

@@ -23,11 +23,15 @@ describe FileExtension do
     end
   end
 
-  context 'on get_portion' do
+  context 'on get_data' do
     before :each do
+      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'output.txt', ';')
     end
 
-    it 'gets next line of file' do
+    it 'gets next part of data' do
+      @ext.get_data.should eql('First part')
+      @ext.get_data.should eql('Second part')
+      @ext.get_data.should eql('Third part')
     end
   end
 end
