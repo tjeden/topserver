@@ -23,15 +23,38 @@ describe FileExtension do
     end
   end
 
-  context 'on get_data' do
+  context 'on read' do
     before :each do
-      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'output.txt', ';')
+      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'data/output.txt', ';')
     end
 
     it 'gets next part of data' do
-      @ext.get_data.should eql('First part')
-      @ext.get_data.should eql('Second part')
-      @ext.get_data.should eql('Third part')
+      @ext.read.should eql('First part')
+      @ext.read.should eql('Second part')
+      @ext.read.should eql('Third part')
+      @ext.read.should eql(nil)
     end
+  end
+
+  context 'on write' do
+    before :each do
+      clean_file('data/output.txt')
+      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'data/output.txt', ';')
+      @ext.write('first_line')
+      @ext.write('second_line')
+      @ext.close_output
+    end
+
+    after :each do
+      clean_file('data/output.txt')
+    end
+
+    it 'writes portion of data' do
+      file = File.open('data/output.txt','r') do |file|
+        file.gets.should eql("first_line\n")
+        file.gets.should eql("second_line\n")
+      end
+    end
+
   end
 end
