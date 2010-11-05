@@ -38,6 +38,6 @@ describe Server do
       @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
       @server.clients.last.ip.should eql('192.168.0.13')
     end
-
   end
+
 end

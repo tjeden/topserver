@@ -8,6 +8,21 @@ class Server
   end
 
   def start
+    @running = true    
+    Thread.new do
+      while(running?)
+        puts i
+        sleep 1
+      end
+    end
+  end
+
+  def stop
+    @running = false
+  end
+
+  def running?
+    @running
   end
 
   def register_client(opts={})
