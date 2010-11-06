@@ -11,16 +11,19 @@ class Client
   def send_task
     puts 'sending'
     @available = false
-    http = EventMachine::HttpRequest.new("http://#{@ip}:#{@port}").post :query => {'data' => @task.get_data}, :timeout => 10
+    data = @task.get_data
+    if data
+      http = EventMachine::HttpRequest.new("http://#{@ip}:#{@port}").post :query => {'data' => data}, :timeout => 10
 
-    http.callback {
-      p http.response_header.status
-      p http.response_header
-      p http.response
+      http.callback {
+        p http.response_header.status
+        p http.response_header
+        p http.response
 
-      puts 'sended'
-      @available = true
-    }
+        puts 'sended'
+        @available = true
+      }
+    end
   end
 
   def available?
