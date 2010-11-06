@@ -7,9 +7,6 @@ class Server
     @tasks = []
   end
 
-  def start
-  end
-
   def register_client(opts={})
     task = find_task_by_name(opts[:task_name])
     clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port])

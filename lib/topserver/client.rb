@@ -11,7 +11,7 @@ class Client
   def send_task
     puts 'sending'
     @available = false
-    http = EventMachine::HttpRequest.new("http://#{@ip}:#{@port}").post :query => {'keyname' => 'value'}, :timeout => 10
+    http = EventMachine::HttpRequest.new("http://#{@ip}:#{@port}").post :query => {'data' => @task.get_data}, :timeout => 10
 
     http.callback {
       p http.response_header.status
