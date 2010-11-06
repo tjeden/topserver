@@ -1,6 +1,3 @@
-require 'net/http'
-require 'uri'
-
 class Server
 
   attr_accessor :clients, :tasks
