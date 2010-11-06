@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 class Server
 
   attr_accessor :clients, :tasks
@@ -11,7 +14,7 @@ class Server
     @running = true    
     Thread.new do
       while(running?)
-        puts i
+        send_tasks_to_clients
         sleep 1
       end
     end
@@ -22,12 +25,18 @@ class Server
   end
 
   def running?
-    @running
+    @running == true
   end
 
   def register_client(opts={})
     task = find_task_by_name(opts[:task_name])
     clients << Client.new( :ip => opts[:ip], :task => task)
+  end
+
+  def send_tasks_to_clients
+    clients.each do |client|
+      client.send_task if client.available?
+    end
   end
 
   private

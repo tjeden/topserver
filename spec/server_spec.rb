@@ -40,4 +40,41 @@ describe Server do
     end
   end
 
+  describe '#send_task_to_client' do
+    before :each do
+      @server = Server.new
+    end
+
+    context 'when there is no clients' do
+      it 'does nothing' do
+        @server.send_tasks_to_clients
+      end
+    end
+
+    context 'when there is availible client and task' do
+      before :each do
+        @task = Task.new( :name => 'foo')
+        @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
+      end
+
+      it 'sends task' do
+        @server.clients.first.should_receive(:send_task)
+        @server.send_tasks_to_clients
+      end
+    end
+
+    context 'when there client is inavailible ' do
+      before :each do
+        @task = Task.new( :name => 'foo')
+        @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
+        @server.clients.first.stub!(:available?).and_return(false)
+      end
+
+      it 'does not send task' do
+        @server.clients.first.should_not_receive(:send_task)
+        @server.send_tasks_to_clients
+      end
+    end
+  end
+
 end
