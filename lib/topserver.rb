@@ -1,5 +1,4 @@
-require 'net/http'
-require 'uri'
+require 'em-http'
 
 require 'lib/topserver/server'
 require 'lib/topserver/task'

@@ -15,6 +15,15 @@ describe Client do
       @client.ip.should eql('192.168.0.13')
     end
 
+    it 'sets default port' do
+      @client.port.should eql('80')
+    end
+
+    it 'assgines given port' do
+      @client = Client.new( :ip => '192.168.0.13', :task => @task, :port => '8080')
+      @client.port.should eql('8080')
+    end
+
     it 'is available' do
       @client.available?
     end
@@ -29,7 +38,7 @@ describe Client do
     xit 'sends post to client address' do
     end
 
-    it 'sets available to false' do
+    xit 'sets available to false' do
       @client.send_task
       @client.available?.should be_false
     end

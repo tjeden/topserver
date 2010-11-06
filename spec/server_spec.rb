@@ -19,6 +19,9 @@ describe Server do
   describe '#register_client' do
     before :each do
       @server = Server.new
+      @task = Task.new( :name => 'foo')
+      @server.tasks << @task
+      @server.register_client( :task_name => 'foo', :ip => '192.168.0.13', :port => '8080')
     end
 
     it 'adds new client' do
@@ -28,15 +31,15 @@ describe Server do
     end
 
     it 'assigns correct task to client' do
-      task = Task.new( :name => 'foo')
-      @server.tasks << task
-      @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
-      @server.clients.last.task.should eql(task)
+      @server.clients.last.task.should eql(@task)
     end
 
     it 'assigns ip to client' do
-      @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
       @server.clients.last.ip.should eql('192.168.0.13')
+    end
+
+    it 'assigns port to client' do
+      @server.clients.last.port.should eql('8080')
     end
   end
 

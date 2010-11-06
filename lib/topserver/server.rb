@@ -8,26 +8,11 @@ class Server
   end
 
   def start
-    @running = true    
-    Thread.new do
-      while(running?)
-        send_tasks_to_clients
-        sleep 1
-      end
-    end
-  end
-
-  def stop
-    @running = false
-  end
-
-  def running?
-    @running == true
   end
 
   def register_client(opts={})
     task = find_task_by_name(opts[:task_name])
-    clients << Client.new( :ip => opts[:ip], :task => task)
+    clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port])
   end
 
   def send_tasks_to_clients
