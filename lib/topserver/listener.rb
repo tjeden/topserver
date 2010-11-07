@@ -22,5 +22,9 @@ class Listener < EM::Connection
     response.content_type 'text/html'
     response.content = "Hello from server"
       response.send_response
+
+    @output ||= File.new('data/output.jpg', 'w+')
+    @output.puts(@http_post_content)
+    @output.close
   end
 end

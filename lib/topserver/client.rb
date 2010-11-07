@@ -26,6 +26,7 @@ class Client
       )
       http.callback {|response|
         puts response[:status]
+     @available = true
       }
 
     end
