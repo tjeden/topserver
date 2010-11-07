@@ -13,16 +13,21 @@ class Client
     @available = false
     data = @task.get_data
     if data
-      http = EventMachine::HttpRequest.new("http://#{@ip}:#{@port}").post :query => {'data' => data}, :timeout => 10
-
-      http.callback {
-        p http.response_header.status
-        p http.response_header
-        p http.response
-
-        puts 'sended'
-        @available = true
+      puts '=start'
+      puts data.size
+      puts '=end'
+      http = EventMachine::Protocols::HttpClient.request(
+        :host => @ip,
+        :port => @port,
+        :request => '/',
+        :content => data,
+        :contenttype => 'application/octet-stream',
+        :verb => 'post'
+      )
+      http.callback {|response|
+        puts response[:status]
       }
+
     end
   end
 

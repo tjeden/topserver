@@ -3,7 +3,7 @@ class Task
 
   def initialize(opts={})
     @name = opts[:name]
-    @fe = FileExtension.new('foo', 'data/dummy_file.txt', 'output.txt', ';')
+    @fe = BinaryFileExtension.new('foo', 'data/owles.jpg', 'output.txt', ';')
     @end_of_data = false
   end
 

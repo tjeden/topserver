@@ -1,4 +1,4 @@
-class Server
+class Server 
 
   attr_accessor :clients, :tasks
 
