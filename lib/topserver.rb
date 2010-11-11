@@ -1,5 +1,5 @@
 require 'eventmachine'
-require 'evma_httpserver'
+require 'socket'
 
 require 'lib/topserver/server'
 require 'lib/topserver/task'

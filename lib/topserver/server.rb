@@ -18,6 +18,14 @@ class Server
     end
   end
 
+  def find_client(port, ip)
+    puts port
+    puts ip
+    puts clients.first.ip
+    puts clients.first.port
+    clients.detect { |c| (c.port.to_s == port.to_s) && (c.ip.to_s == ip.to_s)}
+  end
+
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }

@@ -47,6 +47,10 @@ class Client
     end
   end
 
+  def receive_task(data)
+    task.write_data(data)
+  end
+
   def available?
     @available
   end

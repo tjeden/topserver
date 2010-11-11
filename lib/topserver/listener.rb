@@ -7,13 +7,14 @@ class Listener < EM::Connection
   end
 
   def receive_data(data)
+    port, ip = Socket.unpack_sockaddr_in(get_peername)
     splitted_data = data.split
     if splitted_data[0] == "REGISTER"
-      @server.register_client( :ip => splitted_data[1], 
-        :port => splitted_data[2],
+      @server.register_client( :ip => ip,
+        :port => port,
         :task_name => splitted_data[3])
-    else
-      @server.tasks.first.write_data(data)  
+    elsif splitted_data[0] == "RESPONSE"
+      @server.find_client(port, ip).receive_task(data.sub("RESPONSE ",""))
     end
     send_data "OK"
   end
