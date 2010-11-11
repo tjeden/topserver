@@ -7,9 +7,15 @@ class Listener < EM::Connection
   end
 
   def receive_data(data)
-    @server.tasks.first.write_data(data)
-    send_data ">>>you sent: #{data}"
-    close_connection_after_writing if data =~ /quit/i
+    splitted_data = data.split
+    if splitted_data[0] == "REGISTER"
+      @server.register_client( :ip => splitted_data[1], 
+        :port => splitted_data[2],
+        :task_name => splitted_data[3])
+    else
+      @server.tasks.first.write_data(data)  
+    end
+    send_data "OK"
   end
 
   def unbind
