@@ -1,5 +1,6 @@
 class Listener < EM::Connection
-  include EM::HttpServer
+
+  attr_accessor :server
 
   def post_init
     puts "-- someone connected to the echo server!"
@@ -7,6 +8,7 @@ class Listener < EM::Connection
 
   def receive_data(data)
     puts data
+    @server.tasks.first.write_data(data)
     send_data ">>>you sent: #{data}"
     close_connection_after_writing if data =~ /quit/i
   end

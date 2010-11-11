@@ -2,9 +2,8 @@ class Sender < EM::Connection
   include EM::Deferrable
   attr_accessor :data
 
-  def initialize(data, task)
+  def initialize(data)
     @data = data
-    @task = task
   end
 
   def post_init
@@ -13,7 +12,7 @@ class Sender < EM::Connection
   end
 
   def receive_data(data)
-    @task.write_data(data)
+    puts "response: #{data}"
   end
 
   def unbind
@@ -38,7 +37,7 @@ class Client
       puts '=start data'
       puts data.size
       puts '=end data'
-      EM.connect(@ip, @port, Sender, data, @task) do |server|
+      EM.connect(@ip, @port, Sender, data) do |server|
         server.callback {
           @available = true
         }
