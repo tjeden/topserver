@@ -1,3 +1,26 @@
+class Sender < EM::Connection
+  include EM::Deferrable
+  attr_accessor :data
+
+  def initialize(data, task)
+    @data = data
+    @task = task
+  end
+
+  def post_init
+    puts 'sending'
+    send_data @data
+  end
+
+  def receive_data(data)
+    @task.write_data(data)
+  end
+
+  def unbind
+    set_deferred_status :succeeded
+  end
+end
+
 class Client
   attr_accessor :task, :ip, :port
 
@@ -9,26 +32,19 @@ class Client
   end
 
   def send_task
-    puts 'sending'
     @available = false
     data = @task.get_data
     if data
-      puts '=start'
+      puts '=start data'
       puts data.size
-      puts '=end'
-      http = EventMachine::Protocols::HttpClient.request(
-        :host => @ip,
-        :port => @port,
-        :request => '/',
-        :content => data,
-        :contenttype => 'application/octet-stream',
-        :verb => 'post'
-      )
-      http.callback {|response|
-        puts response[:status]
-     @available = true
-      }
-
+      puts '=end data'
+      EM.connect(@ip, @port, Sender, data, @task) do |server|
+        server.callback {
+          @available = true
+        }
+      end
+    else
+      @task.end_writing
     end
   end
 
