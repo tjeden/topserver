@@ -7,7 +7,6 @@ class Listener < EM::Connection
   end
 
   def receive_data(data)
-    puts data
     @server.tasks.first.write_data(data)
     send_data ">>>you sent: #{data}"
     close_connection_after_writing if data =~ /quit/i
