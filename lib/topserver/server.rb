@@ -10,6 +10,7 @@ class Server
   def register_client(opts={})
     task = find_task_by_name(opts[:task_name])
     clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port])
+    clients.size - 1
   end
 
   def send_tasks_to_clients
@@ -18,12 +19,8 @@ class Server
     end
   end
 
-  def find_client(port, ip)
-    puts port
-    puts ip
-    puts clients.first.ip
-    puts clients.first.port
-    clients.detect { |c| (c.port.to_s == port.to_s) && (c.ip.to_s == ip.to_s)}
+  def find_client(number)
+    clients[number.to_i]
   end
 
   private

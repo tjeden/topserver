@@ -7,12 +7,10 @@ class Sender < EM::Connection
   end
 
   def post_init
-    puts 'sending'
     send_data @data
   end
 
   def receive_data(data)
-    puts "response: #{data}"
   end
 
   def unbind
@@ -34,12 +32,8 @@ class Client
     @available = false
     data = @task.get_data
     if data
-      puts '=start data'
-      puts data.size
-      puts '=end data'
       EM.connect(@ip, @port, Sender, data) do |server|
         server.callback {
-          @available = true
         }
       end
     else
@@ -49,6 +43,7 @@ class Client
 
   def receive_task(data)
     task.write_data(data)
+    @available = true
   end
 
   def available?
