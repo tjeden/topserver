@@ -7,4 +7,5 @@ require 'lib/topserver/client'
 require 'lib/topserver/file_extension'
 require 'lib/topserver/binary_file_extension'
 require 'lib/topserver/listener'
+require 'lib/topserver/sender'
 

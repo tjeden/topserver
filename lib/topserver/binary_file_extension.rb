@@ -1,12 +1,7 @@
 class BinaryFileExtension < FileExtension
   
   def read
-    data = source.gets
-    if data
-      data
-    else
-      source.close
-    end
+    source.gets || source.close
   rescue NoMethodError
     source.close
   end

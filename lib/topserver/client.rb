@@ -1,23 +1,3 @@
-class Sender < EM::Connection
-  include EM::Deferrable
-  attr_accessor :data
-
-  def initialize(data)
-    @data = data
-  end
-
-  def post_init
-    send_data @data
-  end
-
-  def receive_data(data)
-  end
-
-  def unbind
-    set_deferred_status :succeeded
-  end
-end
-
 class Client
   attr_accessor :task, :ip, :port
 

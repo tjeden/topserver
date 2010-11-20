@@ -3,7 +3,6 @@ class Listener < EM::Connection
   attr_accessor :server
 
   def post_init
-#puts "-- someone connected to the echo server!"
   end
 
   def receive_data(data)
@@ -21,6 +20,5 @@ class Listener < EM::Connection
   end
 
   def unbind
-#    puts "-- someone disconnected from the echo server!"
   end
 end

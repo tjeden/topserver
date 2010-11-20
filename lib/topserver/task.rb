@@ -3,7 +3,7 @@ class Task
 
   def initialize(opts={})
     @name = opts[:name]
-    @fe = BinaryFileExtension.new('foo', 'data/owles.jpg', 'data/output.jpg', ';')
+    @file_extension = BinaryFileExtension.new('foo', 'data/owles.jpg', 'data/output.jpg', ';')
     @end_of_data = false
     @counter = 0
     @result = []
@@ -12,7 +12,7 @@ class Task
   def get_data
     data = nil
     unless @end_of_data
-      data = @fe.read 
+      data = @file_extension.read 
       @end_of_data = true if data.nil?
     end
     if data
@@ -30,8 +30,8 @@ class Task
 
   def end_writing
     @result.each do |data|
-      @fe.write(data)
+      @file_extension.write(data)
     end
-    @fe.close_output
+    @file_extension.close_output
   end
 end
