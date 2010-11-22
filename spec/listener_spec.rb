@@ -13,19 +13,19 @@ describe Listener do
         @data = 'REGISTER 123.123.123.123 5555 foo'
       end
 
-      it 'registers new client' do
+      xit 'registers new client' do
         @listener.receive_data(@data)
       end
 
-      it 'responds with new client id' do
+      xit 'responds with new client id' do
       end
     end
 
     context 'on data' do
-      it 'saves data' do
+      xit 'saves data' do
       end
 
-      it 'responds with succcess status' do
+      xit 'responds with succcess status' do
       end
     end
   end
