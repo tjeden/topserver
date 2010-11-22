@@ -12,6 +12,5 @@ EventMachine.run {
   EM.start_server '0.0.0.0', 5555, Listener do |conn|
     conn.server = server
   end
-
 }
 
