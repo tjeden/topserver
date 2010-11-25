@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     eventmachine (0.12.10)
+    trollop (1.16.2)
     workflow (0.7.0)
 
 PLATFORMS
@@ -9,4 +10,5 @@ PLATFORMS
 
 DEPENDENCIES
   eventmachine (~> 0.12.10)
+  trollop (~> 1.16.2)
   workflow (~> 0.7.0)
