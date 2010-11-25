@@ -18,7 +18,7 @@ class Server
   end
 
   def send_tasks_to_clients
-    clients.each { |client| client.send_task if client.available? }
+    clients.each { |client| client.send_task if client.available? && !client.task.completed?}
   end
 
   def close_tasks

@@ -57,6 +57,7 @@ describe Server do
     context 'when there is availible client and task' do
       before :each do
         @task = Task.new( :name => 'foo')
+        @server.tasks << @task
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
       end
 
@@ -66,11 +67,27 @@ describe Server do
       end
     end
 
-    context 'when there client is inavailible ' do
+    context 'when client is inavailible ' do
       before :each do
         @task = Task.new( :name => 'foo')
+        @server.tasks << @task
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
         @server.clients.first.stub!(:available?).and_return(false)
+      end
+
+      it 'does not send task' do
+        @server.clients.first.should_not_receive(:send_task)
+        @server.send_tasks_to_clients
+      end
+    end
+
+    context 'when client is availible but task is completed' do
+      before :each do
+        @task = Task.new( :name => 'foo')
+        @task.stub!(:completed?).and_return(true)
+        @server.tasks << @task
+        @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
+        @server.clients.first.stub!(:available?).and_return(true)
       end
 
       it 'does not send task' do
