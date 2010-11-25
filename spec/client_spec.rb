@@ -32,13 +32,17 @@ describe Client do
   describe '#send_task' do
     before :each do
       @task = double('task')
+      @task.stub!(:get_data).and_return('test',1)
       @client = Client.new( :ip => '192.168.0.13', :task => @task )
     end
 
-    xit 'sends post to client address' do
+    it 'sends post to client address' do
+      EM.should_receive(:connect)
+      @client.send_task
     end
 
-    xit 'sets available to false' do
+    it 'sets available to false' do
+      EM.stub!(:connect)
       @client.send_task
       @client.available?.should be_false
     end
