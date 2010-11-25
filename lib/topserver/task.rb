@@ -15,6 +15,7 @@ class Task
     @file_extension = BinaryFileExtension.new('foo', 'data/owles.jpg', 'data/output.jpg', ';')
     @end_of_data = false
     @counter = 0
+    @recieved = 0
     @result = []
   end
 
@@ -35,9 +36,11 @@ class Task
 
   def write_data(data, counter)
     @result[counter] = data
+    @recieved += 1
   end
 
   def close_task
+    puts 'closing task'
     @result.each do |data|
       @file_extension.write(data)
     end
@@ -46,6 +49,6 @@ class Task
   end
 
   def completed?
-    !closed? && @end_of_data 
+    !closed? && @end_of_data && @counter != 0 && @recieved == @counter
   end
 end
