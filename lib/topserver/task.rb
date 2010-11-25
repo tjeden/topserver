@@ -42,6 +42,7 @@ class Task
       @file_extension.write(data)
     end
     @file_extension.close_output
+    close!
   end
 
   def completed?
