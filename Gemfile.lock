@@ -2,9 +2,11 @@ GEM
   remote: http://rubygems.org/
   specs:
     eventmachine (0.12.10)
+    workflow (0.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  eventmachine
+  eventmachine (~> 0.12.10)
+  workflow (~> 0.7.0)

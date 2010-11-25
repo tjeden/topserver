@@ -19,7 +19,7 @@ describe Client do
       @client.port.should eql('80')
     end
 
-    it 'assgines given port' do
+    it 'assignes given port' do
       @client = Client.new( :ip => '192.168.0.13', :task => @task, :port => '8080')
       @client.port.should eql('8080')
     end

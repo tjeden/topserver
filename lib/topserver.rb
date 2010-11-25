@@ -1,5 +1,6 @@
 require 'eventmachine'
 require 'socket'
+require 'workflow'
 
 require 'lib/topserver/server'
 require 'lib/topserver/task'

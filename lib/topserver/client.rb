@@ -17,8 +17,6 @@ class Client
         server.callback {
         }
       end
-    else
-      @task.end_writing
     end
   end
 

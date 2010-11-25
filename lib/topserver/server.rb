@@ -13,14 +13,16 @@ class Server
     clients.size - 1
   end
 
-  def send_tasks_to_clients
-    clients.each do |client|
-      client.send_task if client.available?
-    end
-  end
-
   def find_client(number)
     clients[number.to_i]
+  end
+
+  def send_tasks_to_clients
+    clients.each { |client| client.send_task if client.available? }
+  end
+
+  def close_tasks
+    tasks.each { |task| task.close_task if task.completed? }
   end
 
   private

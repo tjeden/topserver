@@ -1,4 +1,13 @@
 class Task
+  include Workflow
+
+  workflow do
+    state :working do
+      event :close, :transitions_to => :closed
+    end
+    state :closed
+  end
+
   attr_accessor :name, :counter
 
   def initialize(opts={})
@@ -28,10 +37,14 @@ class Task
     @result[counter] = data
   end
 
-  def end_writing
+  def close_task
     @result.each do |data|
       @file_extension.write(data)
     end
     @file_extension.close_output
+  end
+
+  def completed?
+    !closed? && @end_of_data 
   end
 end

@@ -80,4 +80,36 @@ describe Server do
     end
   end
 
+  describe '#close_tasks' do
+    before :each do
+      @server = Server.new
+    end
+
+    context 'when there are not any tasks' do
+      it 'does nothin' do
+        @server.close_tasks
+      end
+    end
+
+    context 'when there is completed task' do
+      it 'closes task' do
+        @task = Task.new( :name => 'foo')
+        @task.stub!(:completed?).and_return(true)
+        @server.tasks << @task
+        @task.should_receive(:close_task)
+        @server.close_tasks
+      end
+    end
+
+    context 'when there are not any completed task' do
+      it 'closes task' do
+        @task = Task.new( :name => 'foo')
+        @task.stub!(:completed?).and_return(false)
+        @server.tasks << @task
+        @task.should_not_receive(:close_task)
+        @server.close_tasks
+      end
+    end
+  end
+
 end

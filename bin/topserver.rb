@@ -8,6 +8,7 @@ EventMachine.run {
   server.tasks << Task.new(:name => 'foo')
   EM::PeriodicTimer.new(0.25) do
     server.send_tasks_to_clients
+    server.close_tasks
   end
   EM.start_server '0.0.0.0', 5555, Listener do |conn|
     conn.server = server
