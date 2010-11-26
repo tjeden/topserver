@@ -77,7 +77,12 @@ describe Task do
       @task = Task.new( :name => 'foo')
     end
 
-    xit 'spec close task' do
+    it 'closes task and file' do
+      fe = stub() 
+      @task.instance_variable_set(:@file_extension, fe)
+      fe.should_receive(:close_output)
+      @task.should_receive(:close)
+      @task.close_task
     end
   end
 end
