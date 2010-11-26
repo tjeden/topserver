@@ -25,25 +25,50 @@ describe Task do
     end
 
     context 'when there are data' do
-      xit 'is false' do
-        @task.stub!(:end_of_data).and_return(false)
+      before :each do
+        @task.instance_variable_set(:@end_of_data, false)
+      end
+
+      it 'is false' do
         @task.completed?.should be_false 
       end
     end
 
-    context 'when there are not any data' do
-      xit 'is true' do
-        @task.stub!(:end_of_data).and_return(true)
-        @task.completed?.should be_true
+    context "when there aren't any data" do
+      before :each do
+        @task.instance_variable_set(:@end_of_data, true)
       end
-    end
 
-    context 'when task is closed and there are not any data' do
-      xit 'is false' do
-        @task.stub!(:closed?).and_return(true)
-        @task.stub!(:end_of_data).and_return(true)
-        @task.completed?.should be_false 
+      context 'and counter is eql 0' do
+        before :each do
+          @task.instance_variable_set(:@counter,0)
+        end
+        
+        it 'is false' do
+          @task.completed?.should be_false
+        end
       end
+
+      context 'and counter is diffrent from 0' do
+        before :each do
+          @task.instance_variable_set(:@counter, 2)
+        end
+        
+        context 'and counter is diffrent from recieved' do
+          it 'is false' do
+            @task.instance_variable_set(:@recieved, 1)
+            @task.completed?.should be_false
+          end
+        end
+
+        context 'and counter is eql with recieved' do
+          it 'is true' do
+            @task.instance_variable_set(:@recieved, 2)
+            @task.completed?.should be_true
+          end
+        end
+      end
+
     end
   end
 
