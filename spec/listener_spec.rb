@@ -33,7 +33,10 @@ describe Listener do
         @server.register_client( :task_name => 'foo')
       end
 
-      xit 'saves data' do
+      it 'saves data' do
+        @server.clients.first.should_receive(:receive_task).with('dummy_data')
+        @listener.stub!(:send_data)
+        @listener.receive_data(@data)
       end
 
       it 'responds with succcess status' do
