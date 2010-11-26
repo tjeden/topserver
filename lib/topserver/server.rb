@@ -5,6 +5,7 @@ class Server
   def initialize
     @clients = []
     @tasks = []
+    @logger = Logger.new
   end
 
   def register_client(opts={})
@@ -23,6 +24,18 @@ class Server
 
   def close_tasks
     tasks.each { |task| task.close_task if task.completed? }
+  end
+
+  def log(message)
+    logger.info(message) if logging?
+  end
+
+  def logging?
+    true unless defined?(TEST_ENV)
+  end
+
+  def logger
+    @logger
   end
 
   private

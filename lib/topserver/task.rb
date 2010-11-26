@@ -40,7 +40,6 @@ class Task
   end
 
   def close_task
-    puts 'closing task'
     @result.each do |data|
       @file_extension.write(data)
     end

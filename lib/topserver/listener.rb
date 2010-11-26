@@ -8,12 +8,12 @@ class Listener < EM::Connection
   def receive_data(data)
     splitted_data = data.split
     if splitted_data[0] == "REGISTER"
-#puts 'Registering new client'
+      server.log 'Registering new client'
       send_data @server.register_client( :ip => splitted_data[1],
         :port => splitted_data[2],
         :task_name => splitted_data[3])
     elsif splitted_data[0] == "RESPONSE" 
-#      puts "Received_data from #{splitted_data[1]}"
+      server.log "Received_data from #{splitted_data[1]}"
       @server.find_client(splitted_data[1]).receive_task(data.sub(/RESPONSE \d* /,""))
       send_data "OK"
     end
