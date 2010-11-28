@@ -1,5 +1,5 @@
 class Client
-  attr_accessor :task, :ip, :port, :data, :send_at
+  attr_accessor :task, :ip, :port, :data
 
   def initialize(opts={})
     @task = opts[:task]
@@ -36,6 +36,6 @@ class Client
   end
 
   def terminated?
-    !send_at.nil? && !available? && (Time.now - send_at > task.timeout )
+    !@send_at.nil? && !available? && (Time.now - @send_at > task.timeout )
   end
 end

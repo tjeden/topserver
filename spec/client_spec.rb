@@ -33,7 +33,7 @@ describe Client do
     end
 
     it 'has blank send_at' do
-      @client.send_at.should be_nil
+      @client.instance_variable_get(:@send_at).should be_nil
     end
   end
 
@@ -52,7 +52,7 @@ describe Client do
     it 'sets send_at' do
       EM.stub!(:connect)
       @client.send_task
-      @client.send_at.should_not be_nil
+      @client.instance_variable_get(:@send_at).should_not be_nil
     end
 
     it 'sets available to false' do
@@ -102,6 +102,16 @@ describe Client do
         end
       end
     end
+  end
 
+  describe '#termintate' do
+    before :each do
+      @client = Client.new
+      @client.instance_variable_get(:@available)
+    end
+
+    it 'sets client to available' do
+      @client.should be_available
+    end
   end
 end
