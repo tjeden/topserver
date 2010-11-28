@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Server do
-  describe '#on create' do
-    before :each do
-      @server = Server.new
-    end
+  before :each do
+    @server = Server.new
+  end
 
+  describe '#on create' do
     it 'clients are empty' do
       @server.clients.should be_empty
     end
@@ -18,7 +18,6 @@ describe Server do
 
   describe '#register_client' do
     before :each do
-      @server = Server.new
       @task = Task.new( :name => 'foo')
       @server.tasks << @task
       @server.register_client( :task_name => 'foo', :ip => '192.168.0.13', :port => '8080')
@@ -44,10 +43,6 @@ describe Server do
   end
 
   describe '#send_task_to_client' do
-    before :each do
-      @server = Server.new
-    end
-
     context 'when there is no clients' do
       it 'does nothing' do
         @server.send_tasks_to_clients
@@ -67,7 +62,7 @@ describe Server do
       end
     end
 
-    context 'when client is inavailible ' do
+    context 'when client is unavailible ' do
       before :each do
         @task = Task.new( :name => 'foo')
         @server.tasks << @task
@@ -97,11 +92,11 @@ describe Server do
     end
   end
 
-  describe '#close_tasks' do
-    before :each do
-      @server = Server.new
-    end
+  describe '#check_timeouts' do
+    
+  end
 
+  describe '#close_tasks' do
     context 'when there are not any tasks' do
       it 'does nothin' do
         @server.close_tasks
