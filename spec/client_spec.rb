@@ -104,9 +104,11 @@ describe Client do
     end
   end
 
-  describe '#termintate' do
+  describe '#terminate' do
     before :each do
-      @client = Client.new
+      @task = double(:task)
+      @task.stub!(:add_timeouted_data)
+      @client = Client.new( :task => @task)
       @client.instance_variable_set(:@available, false)
       @client.instance_variable_set(:@number, 13)
       @client.terminate

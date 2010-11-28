@@ -22,14 +22,14 @@ describe Listener do
       end
 
       it 'responds with new client id' do
-        @listener.should_receive(:send_data).with(0)
+        @listener.should_receive(:send_data).with(1)
         @listener.receive_data(@data)
       end
     end
 
     context 'on data' do
       before :each do
-        @data = 'RESPONSE 0 dummy_data'
+        @data = 'RESPONSE 1 dummy_data'
         @server.register_client( :task_name => 'foo')
       end
 

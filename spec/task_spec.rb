@@ -19,7 +19,7 @@ describe Task do
     end
 
     it 'assigns default timeout' do
-      @task.timeout.should be_eql(60)
+      @task.timeout.should be_eql(3)
     end
   end
 
