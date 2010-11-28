@@ -107,11 +107,17 @@ describe Client do
   describe '#termintate' do
     before :each do
       @client = Client.new
-      @client.instance_variable_get(:@available)
+      @client.instance_variable_set(:@available, false)
+      @client.instance_variable_set(:@number, 13)
+      @client.terminate
     end
 
     it 'sets client to available' do
       @client.should be_available
+    end
+
+    it 'sets number to nil' do
+      @client.instance_variable_get(:@number).should be_nil
     end
   end
 end

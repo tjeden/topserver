@@ -33,6 +33,8 @@ class Client
 
 #TODO not implemented yet
   def terminate
+    @available = true
+    @number = nil
   end
 
   def terminated?
