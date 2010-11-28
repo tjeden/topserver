@@ -17,6 +17,10 @@ describe Task do
     it 'is working' do
       @task.working?.should be_true
     end
+
+    it 'assigns default timeout' do
+      @task.timeout.should be_eql(60)
+    end
   end
 
   describe '#completed?' do

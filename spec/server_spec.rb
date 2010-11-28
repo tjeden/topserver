@@ -93,12 +93,24 @@ describe Server do
   end
 
   describe '#check_timeouts' do
-    
+    context 'when there is client with terminated task' do
+      before :each do
+        @task = Task.new( :name => 'foo')
+        @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
+        @terminated_client = @server.clients.first
+        @terminated_client.stub!(:terminated?).and_return(true)
+      end
+
+      it 'terminate that task' do 
+        @terminated_client.should_receive(:terminate)   
+        @server.check_timeouts 
+      end
+    end
   end
 
   describe '#close_tasks' do
     context 'when there are not any tasks' do
-      it 'does nothin' do
+      it 'does nothing' do
         @server.close_tasks
       end
     end

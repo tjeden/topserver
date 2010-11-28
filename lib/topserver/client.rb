@@ -1,5 +1,5 @@
 class Client
-  attr_accessor :task, :ip, :port
+  attr_accessor :task, :ip, :port, :data, :send_at
 
   def initialize(opts={})
     @task = opts[:task]
@@ -7,13 +7,15 @@ class Client
     @port = opts[:port] ||= '80'
     @available = true
     @number = nil
+    @data = nil
   end
 
   def send_task
     @available = false
-    data, @number = @task.get_data
+    @send_at = Time.now
+    @data, @number = @task.get_data
     if data
-      EM.connect(@ip, @port, Sender, data) do |server|
+      EM.connect(@ip, @port, Sender, @data) do |server|
         server.callback {
         }
       end
@@ -27,5 +29,13 @@ class Client
 
   def available?
     @available
+  end
+
+#TODO not implemented yet
+  def terminate
+  end
+
+  def terminated?
+    !send_at.nil? && !available? && (Time.now - send_at > task.timeout )
   end
 end

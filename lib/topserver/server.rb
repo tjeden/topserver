@@ -26,6 +26,10 @@ class Server
     tasks.each { |task| task.close_task if task.completed? }
   end
 
+  def check_timeouts
+    clients.each { |client| client.terminate if client.terminated? }
+  end
+
   def log(message)
     logger.info(message) if logging?
   end
