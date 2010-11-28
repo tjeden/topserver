@@ -8,7 +8,7 @@ class Task
     state :closed
   end
 
-  attr_accessor :name, :counter, :timeout
+  attr_accessor :name, :counter, :timeout, :recieved, :timeouted
 
   def initialize(opts={})
     @name = opts[:name]
@@ -18,7 +18,7 @@ class Task
     @recieved = 0
     @result = []
     @timeouted = []
-    @timeout = 10
+    @timeout = 3
   end
 
   def get_data

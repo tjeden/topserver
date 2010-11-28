@@ -32,6 +32,7 @@ class Client
   end
 
   def terminate
+    @task.add_timeouted_data(@data, @number)
     @available = true
     @number = nil
   end

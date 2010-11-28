@@ -20,6 +20,7 @@ class Server
 
   def diagnose
     log "Available clients #{clients.find_all { |c| c.available? }.size }"
+    log "Counter:#{tasks[0].counter} Recieved:#{tasks[0].recieved} Timeouted:#{tasks[0].timeouted.size}"
   end
 
   def send_tasks_to_clients
@@ -36,7 +37,13 @@ class Server
   end
 
   def check_timeouts
-    clients.each { |client| client.terminate if client.terminated? }
+    clients.each_with_index do |client, i|
+      if client.terminated? 
+        log 'Client lost'
+        client.terminate 
+        clients.delete_at(i)
+      end
+    end
   end
 
   def log(message)
