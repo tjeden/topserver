@@ -89,4 +89,15 @@ describe Task do
       @task.close_task
     end
   end
+
+  describe '#add_timeouted_data' do
+    before :each do
+      @task = Task.new( :name => 'foo')
+      @task.add_timeouted_data('dummy', 2)
+    end
+
+    it 'adds data to timeouted' do
+      @task.get_data.should eql(['dummy', 2])
+    end
+  end
 end

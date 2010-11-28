@@ -23,7 +23,7 @@ class Client
   end
 
   def receive_task(data)
-    task.write_data(data, @number)
+    task.write_data(data, @number) if !@number.nil?
     @available = true
   end
 
@@ -31,7 +31,6 @@ class Client
     @available
   end
 
-#TODO not implemented yet
   def terminate
     @available = true
     @number = nil

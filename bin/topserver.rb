@@ -14,6 +14,10 @@ EventMachine.run {
   EM::PeriodicTimer.new(0.25) do
     server.send_tasks_to_clients
     server.close_tasks
+    server.check_timeouts
+  end
+  EM::PeriodicTimer.new(1.0) do
+    server.diagnose
   end
   EM.start_server opts[:ip], opts[:port], Listener do |conn|
     conn.server = server

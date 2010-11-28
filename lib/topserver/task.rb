@@ -17,21 +17,26 @@ class Task
     @counter = 0
     @recieved = 0
     @result = []
-    @timeout = 60
+    @timeouted = []
+    @timeout = 10
   end
 
   def get_data
-    data = nil
-    unless @end_of_data
-      data = @file_extension.read 
-      @end_of_data = true if data.nil?
-    end
-    if data
-      @result << nil
-      @counter += 1
-      [data, @counter -1]
+    if @timeouted.size > 0
+      @timeouted.pop
     else
-      nil
+      data = nil
+      unless @end_of_data
+        data = @file_extension.read 
+        @end_of_data = true if data.nil?
+      end
+      if data
+        @result << nil
+        @counter += 1
+        [data, @counter -1]
+      else
+        nil
+      end
     end
   end
 
@@ -50,5 +55,9 @@ class Task
 
   def completed?
     !closed? && @end_of_data && @counter != 0 && @recieved == @counter
+  end
+
+  def add_timeouted_data(data, number) 
+    @timeouted << [data,number] 
   end
 end

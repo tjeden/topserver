@@ -18,12 +18,21 @@ class Server
     clients[number.to_i]
   end
 
+  def diagnose
+    log "Available clients #{clients.find_all { |c| c.available? }.size }"
+  end
+
   def send_tasks_to_clients
     clients.each { |client| client.send_task if client.available? && !client.task.completed?}
   end
 
   def close_tasks
-    tasks.each { |task| task.close_task if task.completed? }
+    tasks.each do |task| 
+      if task.completed?
+        log 'Task completed'
+        task.close_task 
+      end
+    end
   end
 
   def check_timeouts
