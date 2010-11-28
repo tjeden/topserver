@@ -6,16 +6,18 @@ class Server
     @clients = []
     @tasks = []
     @logger = Logger.new
+    @max_client_number = 0
   end
 
   def register_client(opts={})
     task = find_task_by_name(opts[:task_name])
-    clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port])
-    clients.size - 1
+    @max_client_number += 1
+    clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
+    @max_client_number
   end
 
   def find_client(number)
-    clients[number.to_i]
+    clients.detect { |client| client.client_number == number.to_i }
   end
 
   def diagnose

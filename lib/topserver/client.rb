@@ -1,10 +1,11 @@
 class Client
-  attr_accessor :task, :ip, :port, :data
+  attr_accessor :task, :ip, :port, :data, :client_number
 
   def initialize(opts={})
     @task = opts[:task]
     @ip = opts[:ip]
     @port = opts[:port] ||= '80'
+    @client_number = opts[:client_number]
     @available = true
     @number = nil
     @data = nil
