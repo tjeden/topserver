@@ -1,6 +1,8 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    brb (0.3.0)
+      eventmachine (> 0.12)
     eventmachine (0.12.10)
     trollop (1.16.2)
     workflow (0.7.0)
@@ -9,6 +11,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  brb
   eventmachine (~> 0.12.10)
   trollop (~> 1.16.2)
   workflow (~> 0.7.0)

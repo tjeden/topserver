@@ -21,8 +21,8 @@ class Server
   end
 
   def diagnose
-    log "Available clients #{clients.find_all { |c| c.available? }.size }"
-    log "Counter:#{tasks[0].counter} Recieved:#{tasks[0].recieved} Timeouted:#{tasks[0].timeouted.size}"
+    "Available clients #{clients.find_all { |c| c.available? }.size }"
+    "Counter:#{tasks[0].counter} Recieved:#{tasks[0].recieved} Timeouted:#{tasks[0].timeouted.size}"
   end
 
   def send_tasks_to_clients

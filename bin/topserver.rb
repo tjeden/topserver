@@ -16,11 +16,9 @@ EventMachine.run {
     server.close_tasks
     server.check_timeouts
   end
-  EM::PeriodicTimer.new(1.0) do
-    server.diagnose
-  end
   EM.start_server opts[:ip], opts[:port], Listener do |conn|
     conn.server = server
   end
+  BrB::Service.start_service(:object => server, :host => 'localhost', :port => 5556)
 }
 
