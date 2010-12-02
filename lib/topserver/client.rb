@@ -1,5 +1,5 @@
 class Client
-  attr_accessor :task, :ip, :port, :data, :client_number
+  attr_accessor :task, :ip, :port, :data, :client_number, :inactive
 
   def initialize(opts={})
     @task = opts[:task]
@@ -29,12 +29,16 @@ class Client
   end
 
   def available?
-    @available
+    @available && !@inactive
+  end
+
+  def inactive?
+    @inactive
   end
 
   def terminate
     @task.add_timeouted_data(@data, @number)
-    @available = true
+    @inactive = true
     @number = nil
   end
 

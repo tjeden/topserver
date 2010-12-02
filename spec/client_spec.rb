@@ -114,8 +114,12 @@ describe Client do
       @client.terminate
     end
 
-    it 'sets client to available' do
-      @client.should be_available
+    it 'sets client to unavailable' do
+      @client.should_not be_available
+    end
+
+    it 'sets client to inactive' do
+      @client.should be_inactive
     end
 
     it 'sets number to nil' do
