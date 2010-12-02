@@ -1,10 +1,11 @@
 class Server 
 
-  attr_accessor :clients, :tasks
+  attr_accessor :clients, :tasks, :clients_history
 
   def initialize
     @clients = []
     @tasks = []
+    @clients_history = []
     @logger = Logger.new
     @max_client_number = 0
   end
@@ -13,16 +14,12 @@ class Server
     task = find_task_by_name(opts[:task_name])
     @max_client_number += 1
     clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
+    update_client_history
     @max_client_number
   end
 
   def find_client(number)
     clients.detect { |client| client.client_number == number.to_i }
-  end
-
-  def diagnose
-    "Available clients #{clients.find_all { |c| c.available? }.size }"
-    "Counter:#{tasks[0].counter} Recieved:#{tasks[0].recieved} Timeouted:#{tasks[0].timeouted.size}"
   end
 
   def send_tasks_to_clients
@@ -44,6 +41,7 @@ class Server
         log 'Client lost'
         client.terminate 
         clients.delete_at(i)
+        update_client_history
       end
     end
   end
@@ -63,5 +61,9 @@ class Server
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }
+  end
+
+  def update_client_history
+    @clients_history << [Time.now, clients.size]
   end
 end

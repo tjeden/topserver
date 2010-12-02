@@ -81,7 +81,7 @@ $(document).ready(function(){
 			series: [{
 				name: 'Aktywni klienci',
 				lineWidth: 4,
-        pointInterval : 10000,
+        pointInterval : 10,
 				marker: {
 					radius: 4
 				}

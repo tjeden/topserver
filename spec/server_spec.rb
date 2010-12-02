@@ -14,6 +14,9 @@ describe Server do
       @server.tasks.should be_empty
     end
 
+    it 'has empty clients history' do
+      @server.clients_history.should be_empty
+    end
   end
 
   describe '#register_client' do
@@ -39,6 +42,12 @@ describe Server do
 
     it 'assigns port to client' do
       @server.clients.last.port.should eql('8080')
+    end
+
+    it 'saves time in history' do
+      @server.clients_history.size.should eql(1)
+      @server.clients_history[0][0].is_a?(Time).should be_true
+      @server.clients_history[0][1].should eql(1)
     end
   end
 
@@ -104,6 +113,13 @@ describe Server do
       it 'terminate that task' do 
         @terminated_client.should_receive(:terminate)   
         @server.check_timeouts 
+      end
+
+      it 'saves that in history' do
+        @terminated_client.stub!(:terminate)
+        lambda{
+          @server.check_timeouts 
+        }.should change(@server.clients_history, :size).by(1)
       end
     end
   end
