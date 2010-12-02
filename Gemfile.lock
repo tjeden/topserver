@@ -3,12 +3,18 @@ GEM
   specs:
     brb (0.3.0)
       eventmachine (> 0.12)
+    emk-sinatra-url-for (0.2.1)
+      sinatra (>= 0.9.1.1)
     eventmachine (0.12.10)
     haml (3.0.24)
     rack (1.2.1)
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
+    sinatra-static-assets (0.5.0)
+      emk-sinatra-url-for (>= 0.2.1)
+      rack (>= 1.0.0)
+      sinatra (>= 0.9.1)
     tilt (1.1)
     trollop (1.16.2)
     workflow (0.7.0)
@@ -21,5 +27,6 @@ DEPENDENCIES
   eventmachine (~> 0.12.10)
   haml
   sinatra (~> 1.1.0)
+  sinatra-static-assets
   trollop (~> 1.16.2)
   workflow (~> 0.7.0)
