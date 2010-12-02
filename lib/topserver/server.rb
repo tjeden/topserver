@@ -14,7 +14,7 @@ class Server
     task = find_task_by_name(opts[:task_name])
     @max_client_number += 1
     clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
-    update_client_history
+    update_clients_history
     @max_client_number
   end
 
@@ -41,7 +41,7 @@ class Server
         log 'Client lost'
         client.terminate 
         clients.delete_at(i)
-        update_client_history
+        update_clients_history
       end
     end
   end
@@ -58,12 +58,13 @@ class Server
     @logger
   end
 
+  def update_clients_history
+    @clients_history << [Time.now, clients.size]
+  end
+
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }
   end
 
-  def update_client_history
-    @clients_history << [Time.now, clients.size]
-  end
 end

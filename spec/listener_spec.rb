@@ -45,5 +45,39 @@ describe Listener do
         @listener.receive_data(@data)
       end
     end
+
+    context 'on data for inactive client' do
+      before :each do
+        @server.register_client( :task_name => 'foo')
+        @server.clients.first.instance_variable_set(:@inactive,true)
+        @data = 'RESPONSE 1 dummy_data'
+        @server.register_client( :task_name => 'foo')
+      end
+
+      it 'brings client back to live' do
+        @listener.stub!(:send_data)
+        @listener.receive_data(@data)
+        @server.clients.first.should_not be_inactive
+      end
+
+      it 'does not saves data' do
+        @server.clients.first.should_not_receive(:receive_task)
+        @listener.stub!(:send_data)
+        @listener.receive_data(@data)
+      end
+
+      it 'saves clients history' do
+        @listener.stub!(:send_data)
+        lambda {
+          @listener.receive_data(@data)
+        }.should change(@server.clients_history, :size).by(1)
+      end
+
+      it 'responds with succcess status' do
+        @server.clients.first.stub!(:receive_task)
+        @listener.should_receive(:send_data).with('OK')
+        @listener.receive_data(@data)
+      end
+    end
   end
 end

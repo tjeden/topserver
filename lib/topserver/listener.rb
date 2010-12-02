@@ -13,10 +13,14 @@ class Listener < EM::Connection
         :port => splitted_data[2],
         :task_name => splitted_data[3])
     elsif splitted_data[0] == "RESPONSE" 
-#server.log "Received_data from #{splitted_data[1]}"
       client = @server.find_client(splitted_data[1])
       if client
-        client.receive_task(data.sub(/RESPONSE \d* /,""))
+        if client.inactive?
+          client.back_to_life
+          server.update_clients_history
+        else
+          client.receive_task(data.sub(/RESPONSE \d* /,""))
+        end
       else
         @server.log 'non existing client'
       end

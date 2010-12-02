@@ -126,4 +126,21 @@ describe Client do
       @client.instance_variable_get(:@number).should be_nil
     end
   end
+
+  describe '#back_to_live' do
+    before :each do
+      @client = Client.new( :task => @task )
+      @client.instance_variable_set(:@available, false)
+      @client.instance_variable_set(:@inactive, true)
+      @client.back_to_life
+    end
+    
+    it 'sets client to available' do
+      @client.should be_available
+    end
+
+    it 'sets client to active' do
+      @client.should_not be_inactive
+    end
+  end
 end

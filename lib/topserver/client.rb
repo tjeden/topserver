@@ -1,5 +1,5 @@
 class Client
-  attr_accessor :task, :ip, :port, :data, :client_number, :inactive
+  attr_accessor :task, :ip, :port, :data, :client_number
 
   def initialize(opts={})
     @task = opts[:task]
@@ -44,5 +44,10 @@ class Client
 
   def terminated?
     !@send_at.nil? && !available? && (Time.now - @send_at > task.timeout )
+  end
+
+  def back_to_life
+    @available = true
+    @inactive = false
   end
 end
