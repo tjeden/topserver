@@ -36,6 +36,10 @@ class Client
     @inactive
   end
 
+  def active?
+    !@inactive
+  end
+
   def terminate
     @task.add_timeouted_data(@data, @number)
     @inactive = true
@@ -43,7 +47,7 @@ class Client
   end
 
   def terminated?
-    !@send_at.nil? && !available? && (Time.now - @send_at > task.timeout )
+    active? && !@send_at.nil? && !available? && (Time.now - @send_at > task.timeout ) 
   end
 
   def back_to_life

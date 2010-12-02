@@ -16,6 +16,7 @@ class Listener < EM::Connection
       client = @server.find_client(splitted_data[1])
       if client
         if client.inactive?
+          server.log 'Client is back'
           client.back_to_life
           server.update_clients_history
         else

@@ -40,7 +40,6 @@ class Server
       if client.terminated? 
         log 'Client lost'
         client.terminate 
-        clients.delete_at(i)
         update_clients_history
       end
     end
@@ -59,12 +58,16 @@ class Server
   end
 
   def update_clients_history
-    @clients_history << [Time.now, clients.size]
+    @clients_history << [Time.now, active_clients]
   end
 
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }
+  end
+
+  def active_clients
+    clients.find_all { |c| c.active? }.size
   end
 
 end

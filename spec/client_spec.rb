@@ -62,7 +62,7 @@ describe Client do
     end
   end
 
-  describe '#terminated' do
+  describe '#terminated?' do
     before :each do
       @task = double('task')
       @task.stub!(:timeout).and_return(60)
@@ -72,7 +72,7 @@ describe Client do
     context 'when client is available' do
       before :each do @client.stub!(:available?).and_return(true) end
 
-      it 'is false terminated' do
+      it 'is false' do
         @client.should_not be_terminated
       end
     end
@@ -85,7 +85,15 @@ describe Client do
       context 'and task was sent over 60 seconds ago' do
         it 'is true' do
           @client.instance_variable_set(:@send_at, Time.now - 70)
-          @client.terminated?.should be_true
+          @client.should be_terminated
+        end
+        
+        context 'and clients is inactive' do
+          it 'is false' do
+            @client.instance_variable_set(:@inactive, true)
+            @client.instance_variable_set(:@send_at, Time.now - 70)
+            @client.should_not be_terminated
+          end
         end
       end
 
