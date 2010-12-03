@@ -11,7 +11,7 @@ class DataSender < EM::Connection
   end
   
   def post_init
-    sleep 4
+    sleep 0.2
     send_data "RESPONSE #{@number} #{@data}"
   end
   

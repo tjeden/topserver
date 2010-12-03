@@ -61,13 +61,13 @@ class Server
     @clients_history << [Time.now, active_clients]
   end
 
+  def active_clients
+    clients.find_all { |c| c.active? }.size
+  end
+
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }
-  end
-
-  def active_clients
-    clients.find_all { |c| c.active? }.size
   end
 
 end

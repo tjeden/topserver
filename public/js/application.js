@@ -5,7 +5,19 @@ $(document).ready(function(){
 		var options = {
 	
 			chart: {
-				renderTo: 'container'
+				renderTo: 'container',
+        events: {
+          load: function() {
+            var series = this.series[0];
+            setInterval(function() {
+              $.getJSON('active_clients', null, function(data) {
+                  var y = data;
+                  var x = (new Date()).getTime() // current time
+                  series.addPoint([x, y], true, true);
+              });
+            }, 1000);
+          }
+        }
 			},
 			
 			title: {
@@ -87,7 +99,7 @@ $(document).ready(function(){
 				}
 			}]
 		}
-		$.getJSON('active_clients', null, function(data) {
+		$.getJSON('clients_history', null, function(data) {
       clients = [];
       $.each(data, function(i,e){
 			// split the data return into lines and parse them
