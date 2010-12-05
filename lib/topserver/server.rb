@@ -11,11 +11,14 @@ class Server
   end
 
   def register_client(opts={})
-    task = find_task_by_name(opts[:task_name])
-    @max_client_number += 1
-    clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
-    update_clients_history
-    @max_client_number
+    if (task = find_task_by_name(opts[:task_name]))
+      @max_client_number += 1
+      clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
+      update_clients_history
+      @max_client_number
+    else
+      -1
+    end
   end
 
   def find_client(number)

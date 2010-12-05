@@ -49,6 +49,18 @@ describe Server do
       @server.clients_history[0][0].is_a?(Time).should be_true
       @server.clients_history[0][1].should eql(1)
     end
+
+    describe 'with non existing task' do
+      it 'cannot be sucessfull' do
+        lambda {
+          @server.register_client( :task_name => 'invalid', :ip => '192.168.0.13')
+        }.should_not change(@server, :active_clients)
+      end
+
+      it 'returns -1' do
+        @server.register_client( :task_name => 'invalid', :ip => '192.168.0.13').should eql(-1)
+      end
+    end
   end
 
   describe '#send_task_to_client' do
@@ -105,6 +117,7 @@ describe Server do
     context 'when there is client with terminated task' do
       before :each do
         @task = Task.new( :name => 'foo')
+        @server.tasks << @task
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
         @terminated_client = @server.clients.first
         @terminated_client.stub!(:terminated?).and_return(true)
