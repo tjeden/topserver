@@ -28,3 +28,5 @@ scripts_compressed.js
 .bundle
 .rvmrc
 data/output.jpg
+data/output.jpeg
+data/small.jpeg
