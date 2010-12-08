@@ -7,6 +7,7 @@ class Sender < EM::Connection
   end
 
   def post_init
+    puts @data.size
     send_data @data
   end
 

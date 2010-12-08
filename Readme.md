@@ -11,5 +11,5 @@ Server:
 
     ruby bin/topserver.rb
     
-Klient:
+Client:
     ruby bin/client.rb
