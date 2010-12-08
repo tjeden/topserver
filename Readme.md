@@ -13,3 +13,7 @@ Server:
     
 Client:
     ruby bin/client.rb
+
+Web Application (with lovely chart)
+    
+    ruby bin/webapp.rb
