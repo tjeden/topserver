@@ -1,4 +1,4 @@
-class BinaryFileExtension < FileExtension
+class BinaryFileExtension < Extension
   
   def read
     source.gets || source.close
