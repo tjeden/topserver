@@ -1,8 +1,7 @@
 class Extension
-  attr_reader :task_type, :input_file, :output_file, :delimeter
+  attr_reader :input_file, :output_file, :delimeter
 
-  def initialize(task_type, input_file, output_file, delimeter)
-    @task_type = task_type
+  def initialize(input_file, output_file, delimeter)
     @input_file = input_file
     @output_file = output_file
     @delimeter = delimeter

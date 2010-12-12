@@ -12,7 +12,7 @@ class Task
 
   def initialize(opts={})
     @name = opts[:name]
-    @file_extension = BinaryFileExtension.new('foo', 'data/owles.jpg', 'data/output.jpg', ';')
+    @file_extension = opts[:file_extension]
     @end_of_data = false
     @counter = 0
     @recieved = 0

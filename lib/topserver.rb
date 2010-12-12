@@ -12,4 +12,5 @@ require 'lib/topserver/sender'
 require 'lib/topserver/logger'
 require 'lib/topserver/extension'
 require 'lib/topserver/extensions_loader'
+require 'lib/topserver/task_loader'
 

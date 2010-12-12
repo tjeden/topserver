@@ -3,11 +3,7 @@ require 'spec_helper'
 describe FileExtension do
   context 'on create' do
     before :each do
-      @ext = FileExtension.new( 'Foo', 'input.txt', 'output.txt', ';')
-    end
-
-    it 'sets task type' do
-      @ext.task_type.should eql('Foo')
+      @ext = FileExtension.new( 'input.txt', 'output.txt', ';')
     end
 
     it 'sets input file' do
@@ -25,7 +21,7 @@ describe FileExtension do
 
   context 'on read' do
     before :each do
-      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'data/output.txt', ';')
+      @ext = FileExtension.new( 'data/dummy_file.txt', 'data/output.txt', ';')
     end
 
     it 'gets next part of data' do
@@ -39,7 +35,7 @@ describe FileExtension do
   context 'on write' do
     before :each do
       clean_file('data/output.txt')
-      @ext = FileExtension.new( 'Foo', 'data/dummy_file.txt', 'data/output.txt', ';')
+      @ext = FileExtension.new( 'data/dummy_file.txt', 'data/output.txt', ';')
       @ext.write('first_line')
       @ext.write('second_line')
       @ext.close_output

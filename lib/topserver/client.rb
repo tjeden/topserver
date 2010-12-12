@@ -24,7 +24,6 @@ class Client
   end
 
   def receive_task(data)
-    #puts @number
     task.write_data(data, @number) if !@number.nil?
     @available = true
   end
