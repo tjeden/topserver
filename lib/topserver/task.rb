@@ -13,12 +13,12 @@ class Task
   def initialize(opts={})
     @name = opts[:name]
     @file_extension = opts[:file_extension]
+    @timeout = opts[:timeout] || 3
     @end_of_data = false
     @counter = 0
     @recieved = 0
     @result = []
     @timeouted = []
-    @timeout = 3
   end
 
   def get_data

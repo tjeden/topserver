@@ -2,4 +2,6 @@ foo:
   source: data/owles.jpg
   output: data/output.jpg
   delimeter: ;
+  timeout: 3
+  binary: true
 
