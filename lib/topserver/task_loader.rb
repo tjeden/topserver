@@ -1,5 +1,10 @@
 class TaskLoader
   def self.load(server)
-    server.tasks << Task.new(:name => 'foo', :file_extension => BinaryFileExtension.new('data/owles.jpg', 'data/output.jpg', ';'))
+    tasks_config = YAML::load(File.open("config/tasks.yml"))
+    tasks_config.each do |conf|
+      server.tasks << Task.new(:name => conf[0], 
+          :file_extension => BinaryFileExtension.new(
+            conf[1]["source"], conf[1]["output"], conf[1]["delimeter"]))
+    end
   end
 end

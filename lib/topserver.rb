@@ -3,6 +3,7 @@ require 'socket'
 require 'workflow'
 require 'trollop'
 require 'brb'
+require 'yaml'
 
 require 'lib/topserver/server'
 require 'lib/topserver/task'
