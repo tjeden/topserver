@@ -4,4 +4,10 @@ foo:
   delimeter: ;
   timeout: 3
   binary: true
+  
+vector_add:
+  source: data/vector.txt
+  output: data/output.txt
+  delimeter: ;
+  binary: false
 

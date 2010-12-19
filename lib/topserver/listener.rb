@@ -6,7 +6,7 @@ class Listener < EM::Connection
   end
 
   def receive_data(data)
-    #puts "Recieved_data: #{data}"
+    puts "Recieved_data: #{data}"
     splitted_data = data.split
     if splitted_data[0] == "REGISTER"
       server.log 'Registering new client'
