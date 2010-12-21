@@ -4,6 +4,10 @@ require 'workflow'
 require 'trollop'
 require 'brb'
 require 'yaml'
+require 'active_record'
+
+dbconfig = YAML::load(File.open('config/database.yml'))
+ActiveRecord::Base.establish_connection(dbconfig)
 
 require 'lib/topserver/server'
 require 'lib/topserver/task'

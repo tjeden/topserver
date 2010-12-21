@@ -4,7 +4,7 @@ class Server
 
   def initialize
     @clients = []
-    @tasks = []
+    @tasks = Task.all
     @clients_history = []
     @logger = Logger.new
     @max_client_number = 0

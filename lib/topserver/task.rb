@@ -1,4 +1,4 @@
-class Task
+class Task < ActiveRecord::Base
   include Workflow
 
   workflow do
@@ -8,18 +8,11 @@ class Task
     state :closed
   end
 
-  attr_accessor :name, :counter, :timeout, :recieved, :timeouted
+  attr_accessor :counter, :recieved, :timeouted, :file_extension
 
-  def initialize(opts={})
-    @name = opts[:name]
-    @file_extension = opts[:file_extension]
-    @timeout = opts[:timeout] || 3
-    @end_of_data = false
-    @counter = 0
-    @recieved = 0
-    @result = []
-    @timeouted = []
-  end
+  validates_presence_of :name
+
+  before_create :setup_task
 
   def get_data
     if @timeouted.size > 0
@@ -60,4 +53,16 @@ class Task
   def add_timeouted_data(data, number) 
     @timeouted << [data,number] 
   end
+
+protected
+
+  def setup_task
+    @timeout ||= 3
+    @end_of_data = false
+    @counter = 0
+    @recieved = 0
+    @result = []
+    @timeouted = []
+  end
+
 end

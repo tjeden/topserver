@@ -10,7 +10,6 @@ end
 EventMachine.run {
   server = Server.new
   server.log "Top server started on ip: #{opts[:ip]} port: #{opts[:port]}"
-  TaskLoader.load(server)
   EM::PeriodicTimer.new(0.25) do
     server.send_tasks_to_clients
     server.close_tasks
