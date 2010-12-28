@@ -3,11 +3,11 @@ foo:
   output: data/output.jpg
   delimeter: ;
   timeout: 3
-  binary: true
+  extension_name: BinaryFileExtension
   
 vector_add:
   source: data/vector.txt
   output: data/output.txt
   delimeter: ;
-  binary: false
+  extension_name: FileExtension
 

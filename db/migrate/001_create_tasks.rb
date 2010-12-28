@@ -6,6 +6,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string :workflow_state, :null => false
       t.string :source
       t.string :output
+      t.string :extension_name
       t.integer :timeout
       t.boolean :end_of_data
     end
