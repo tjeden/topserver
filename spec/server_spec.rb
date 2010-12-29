@@ -99,15 +99,17 @@ describe Server do
 
     context 'when client is availible but task is completed' do
       before :each do
-        @task = Task.new( :name => 'foo')
+        @task = Task.create( :name => 'foo')
         @task.stub!(:completed?).and_return(true)
-        @server.tasks << @task
+        @server.stub(:tasks).and_return([@task])
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
-        @server.clients.first.stub!(:available?).and_return(true)
+        @client = @server.clients.first
+        @client.stub!(:available?).and_return(true)
+        @server.stub(:clients).and_return([@client])
       end
 
       it 'does not send task' do
-        @server.clients.first.should_not_receive(:send_task)
+        @client.should_not_receive(:send_task)
         @server.send_tasks_to_clients
       end
     end
@@ -116,11 +118,11 @@ describe Server do
   describe '#check_timeouts' do
     context 'when there is client with terminated task' do
       before :each do
-        @task = Task.new( :name => 'foo')
-        @server.tasks << @task
+        @task = Task.create( :name => 'foo')
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
         @terminated_client = @server.clients.first
         @terminated_client.stub!(:terminated?).and_return(true)
+        @server.stub(:clients).and_return([@terminated_client])
       end
 
       it 'terminate that task' do 
@@ -148,8 +150,8 @@ describe Server do
       it 'closes task' do
         @task = Task.new( :name => 'foo')
         @task.stub!(:completed?).and_return(true)
-        @server.tasks << @task
         @task.should_receive(:close_task)
+        @server.stub(:tasks).and_return([@task])
         @server.close_tasks
       end
     end

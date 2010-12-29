@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Task do
   describe '#on create' do
     before :each do
-      @task = Task.new( :name => 'foo')
+      @task = Task.create( :name => 'foo')
     end
 
     it 'assigns name' do
@@ -83,7 +83,7 @@ describe Task do
 
     it 'closes task and file' do
       fe = stub() 
-      @task.instance_variable_set(:@file_extension, fe)
+      @task.instance_variable_set(:@extension, fe)
       fe.should_receive(:close_output)
       @task.should_receive(:close)
       @task.close_task

@@ -4,12 +4,11 @@ class Client < ActiveRecord::Base
   attr_accessor :data
 
   before_create :set_client_available
-  validates_uniqueness_of :number
 
   def send_task
     update_attribute(:available, false)
     update_attribute(:send_at, Time.now)
-    @data, self.number = @task.get_data
+    @data, @number = @task.get_data
     self.save
     if data
       EM.connect(ip, port, Sender, @data) do |server|
@@ -21,7 +20,7 @@ class Client < ActiveRecord::Base
 
   def receive_task(data)
     task.write_data(data, number) if !@number.nil?
-    available = true
+    update_attribute(:available, true)
     save
   end
 
@@ -61,6 +60,6 @@ protected
   end
 
   def set_client_available
-    update_attribute(:available, true)
+    self.available = true
   end
 end

@@ -5,9 +5,10 @@ group :server do
   gem "workflow", "~>0.7.0"
   gem "trollop", "~>1.16.2"
   gem "activerecord", "~>3.0.3"
-  gem "mysql2"
-  gem "mongo"
-  gem "mongo_mapper"
+  gem "mysql2", "~>0.2.6"
+  gem "mongo", "~>1.1.5"
+  gem "mongo_mapper", "~>0.8.6"
+  gem "bson_ext", "~>1.1.5"
 end
 
 group :webapp do
@@ -16,4 +17,10 @@ group :webapp do
   gem "haml"
   gem "sinatra-static-assets"
   gem "json"
+end
+
+group :test do
+  gem "rspec"
+  gem "sqlite3"
+  gem "database_cleaner"
 end

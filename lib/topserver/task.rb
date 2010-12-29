@@ -1,5 +1,6 @@
 class Task < ActiveRecord::Base
   has_many :clients
+  has_many :data_packs
 
   include Workflow
 
@@ -26,6 +27,7 @@ class Task < ActiveRecord::Base
         end_of_data = true if data.nil?
       end
       if data
+        data_packs << DataPack.create(:data => data)
         increment_counter(data)
         [data, counter - 1]
       else
@@ -52,13 +54,13 @@ class Task < ActiveRecord::Base
   end
 
   def add_timeouted_data(data, number) 
-    @timeouted << [data,number] 
+    timeouted << [data,number] 
   end
 
 protected
 
   def setup_task
-    @timeout ||= 3
+    self.timeout = 3
     @end_of_data = false
     @timeouted = []
   end
