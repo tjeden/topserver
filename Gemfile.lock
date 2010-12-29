@@ -14,14 +14,25 @@ GEM
     arel (2.0.6)
     brb (0.3.0)
       eventmachine (> 0.12)
+    bson (1.1.5)
     builder (2.1.2)
     emk-sinatra-url-for (0.2.1)
       sinatra (>= 0.9.1.1)
     eventmachine (0.12.10)
     haml (3.0.24)
     i18n (0.5.0)
+    jnunemaker-validatable (1.8.4)
+      activesupport (>= 2.3.4)
     json (1.4.6)
+    mongo (1.1.5)
+      bson (>= 1.1.5)
+    mongo_mapper (0.8.6)
+      activesupport (>= 2.3.4)
+      jnunemaker-validatable (~> 1.8.4)
+      plucky (~> 0.3.6)
     mysql2 (0.2.6)
+    plucky (0.3.6)
+      mongo (~> 1.1)
     rack (1.2.1)
     sinatra (1.1.0)
       rack (~> 1.1)
@@ -44,6 +55,8 @@ DEPENDENCIES
   eventmachine (~> 0.12.10)
   haml
   json
+  mongo
+  mongo_mapper
   mysql2
   sinatra (~> 1.1.0)
   sinatra-static-assets

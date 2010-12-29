@@ -8,6 +8,7 @@ class CreateTasks < ActiveRecord::Migration
       t.string :output
       t.string :extension_name
       t.integer :timeout
+      t.integer :counter, :default => 0
       t.boolean :end_of_data
     end
   end

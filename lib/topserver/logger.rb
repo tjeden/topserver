@@ -1,4 +1,4 @@
-class Logger
+class TopserverLogger
 
   def info(message)
     puts message

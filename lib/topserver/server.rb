@@ -1,19 +1,18 @@
 class Server 
 
-  attr_accessor :clients, :tasks, :clients_history
+  attr_accessor :tasks, :clients_history
 
   def initialize
-    @clients = []
     @tasks = Task.all
     @clients_history = []
-    @logger = Logger.new
+    @logger = TopserverLogger.new
     @max_client_number = 0
   end
 
   def register_client(opts={})
     if (task = find_task_by_name(opts[:task_name]))
       @max_client_number += 1
-      clients << Client.new( :ip => opts[:ip], :task => task, :port => opts[:port], :client_number => @max_client_number)
+      Client.create( :ip => opts[:ip], :task => task, :port => opts[:port], :number => @max_client_number)
       update_clients_history
       @max_client_number
     else
@@ -22,7 +21,7 @@ class Server
   end
 
   def find_client(number)
-    clients.detect { |client| client.client_number == number.to_i }
+    Client.find_by_number(number.to_i)
   end
 
   def send_tasks_to_clients
@@ -71,6 +70,10 @@ class Server
   private
   def find_task_by_name(name)
     tasks.find{ |t| t.name == name }
+  end
+
+  def clients
+    Client.all
   end
 
 end

@@ -8,6 +8,7 @@ opts = Trollop::options do
 end
 
 EventMachine.run {
+  Result.de
   server = Server.new
   server.log "Top server started on ip: #{opts[:ip]} port: #{opts[:port]}"
   EM::PeriodicTimer.new(0.25) do

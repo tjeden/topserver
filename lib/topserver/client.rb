@@ -1,22 +1,18 @@
-class Client
-  attr_accessor :task, :ip, :port, :data, :client_number
+class Client < ActiveRecord::Base
+  belongs_to :task
 
-  def initialize(opts={})
-    @task = opts[:task]
-    @ip = opts[:ip]
-    @port = opts[:port] ||= '80'
-    @client_number = opts[:client_number]
-    @available = true
-    @number = nil
-    @data = nil
-  end
+  attr_accessor :data
+
+  before_create :set_client_available
+  validates_uniqueness_of :number
 
   def send_task
-    @available = false
-    @send_at = Time.now
-    @data, @number = @task.get_data
+    update_attribute(:available, false)
+    update_attribute(:send_at, Time.now)
+    @data, self.number = @task.get_data
+    self.save
     if data
-      EM.connect(@ip, @port, Sender, @data) do |server|
+      EM.connect(ip, port, Sender, @data) do |server|
         server.callback {
         }
       end
@@ -24,34 +20,47 @@ class Client
   end
 
   def receive_task(data)
-    task.write_data(data, @number) if !@number.nil?
-    @available = true
+    task.write_data(data, number) if !@number.nil?
+    available = true
+    save
   end
 
   def available?
-    @available && !@inactive
+    self.available && !inactive
   end
 
   def inactive?
-    @inactive
+    inactive
   end
 
   def active?
-    !@inactive
+    !inactive
   end
 
   def terminate
     @task.add_timeouted_data(@data, @number)
-    @inactive = true
-    @number = nil
+    self.inactive = true
+    self.number = nil
+    save
   end
 
   def terminated?
-    active? && !@send_at.nil? && !available? && (Time.now - @send_at > task.timeout ) 
+    self.active? && !self.send_at.nil? && !self.available? && (Time.now - self.send_at > task.timeout ) 
   end
 
   def back_to_life
-    @available = true
-    @inactive = false
+    self.available = true
+    self.inactive = false
+    save
+  end
+
+protected
+  
+  def data
+    @data ||= []
+  end
+
+  def set_client_available
+    update_attribute(:available, true)
   end
 end

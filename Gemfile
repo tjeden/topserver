@@ -6,6 +6,8 @@ group :server do
   gem "trollop", "~>1.16.2"
   gem "activerecord", "~>3.0.3"
   gem "mysql2"
+  gem "mongo"
+  gem "mongo_mapper"
 end
 
 group :webapp do

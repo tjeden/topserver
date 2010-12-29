@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  has_many :clients
+
   include Workflow
 
   workflow do
@@ -8,7 +10,7 @@ class Task < ActiveRecord::Base
     state :closed
   end
 
-  attr_accessor :counter, :recieved, :timeouted, :extension
+  attr_accessor :recieved, :timeouted, :extension
 
   validates_presence_of :name
 
@@ -19,14 +21,13 @@ class Task < ActiveRecord::Base
       timeouted.pop
     else
       data = nil
-      unless @end_of_data
-        data = extension.read 
-        @end_of_data = true if data.nil?
+      unless end_of_data
+        data = extension.read(counter)
+        end_of_data = true if data.nil?
       end
       if data
-        result << nil
-        increment_counter
-        [data, @counter -1]
+        increment_counter(data)
+        [data, counter - 1]
       else
         nil
       end
@@ -34,13 +35,13 @@ class Task < ActiveRecord::Base
   end
 
   def write_data(data, counter)
-    result[counter] = data
+    Result.create({:data => data })
     increment_recieved
   end
 
   def close_task
-    result.each do |data|
-      extension.write(data)
+    Result.all.each do |res|
+      extension.write(res.data)
     end
     extension.close_output
     close!
@@ -70,20 +71,13 @@ protected
     @extension ||= extension_name.constantize.new(source, output,nil)
   end
 
-  def result  
-    @result ||= []
-  end
-
-  def counter
-    @counter ||= 0
-  end
-
   def recieved
     @recieved ||= 0
   end
 
-  def increment_counter
-    @counter = counter + 1
+  def increment_counter(data)
+    self.counter += data.size
+    save
   end
 
   def increment_recieved

@@ -11,7 +11,7 @@ class Extension
     @output.close
   end
   
-  def write
+  def write(identifier, data)
     raise 'Should be implemented in subclass'
   end
 
@@ -26,4 +26,9 @@ class Extension
   def output
     raise 'Should be implemented in subclass'
   end
+
+  def timeouted(identifier)
+    raise 'Should be implemented in sublcass'
+  end
+    
 end

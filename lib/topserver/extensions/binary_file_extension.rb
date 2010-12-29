@@ -1,7 +1,7 @@
 class BinaryFileExtension < Extension
   
-  def read
-    source.gets || source.close
+  def read(counter)
+    (source.pos = counter; source.gets )|| source.close
   rescue NoMethodError
     source.close
   end
