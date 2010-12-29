@@ -9,11 +9,11 @@ end
 
 EventMachine.run {
   #temporary 
-  Result.all.each do |r|
-    r.delete
-  end
-  Task.first.update_attribute(:counter, 0)
+  Result.delete_all
+  DataPack.delete_all
   Client.delete_all
+  Task.first.update_attribute(:counter, 0)
+
   server = Server.new
   server.log "Top server started on ip: #{opts[:ip]} port: #{opts[:port]}"
   EM::PeriodicTimer.new(0.25) do

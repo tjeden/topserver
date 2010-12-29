@@ -27,9 +27,8 @@ class Task < ActiveRecord::Base
         end_of_data = true if data.nil?
       end
       if data
-        data_packs << DataPack.create(:data => data)
         increment_counter(data)
-        [data, counter - 1]
+        data_packs.create(:input_data => data)
       else
         nil
       end
@@ -50,7 +49,7 @@ class Task < ActiveRecord::Base
   end
 
   def completed?
-    !closed? && @end_of_data && @counter != 0 && @recieved == @counter
+    !closed? && self.end_of_data && data_pack.all?{ |d| d.workflow_state == "recieved" }
   end
 
   def add_timeouted_data(data, number) 
@@ -71,10 +70,6 @@ protected
 
   def extension
     @extension ||= extension_name.constantize.new(source, output,nil)
-  end
-
-  def recieved
-    @recieved ||= 0
   end
 
   def increment_counter(data)

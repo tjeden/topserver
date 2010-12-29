@@ -1,16 +1,17 @@
 class Client < ActiveRecord::Base
   belongs_to :task
-
-  attr_accessor :data
+  belongs_to :data_pack
 
   before_create :setup_client
 
   def send_task
+    data = @task.get_data
     update_attribute(:available, false)
     update_attribute(:send_at, Time.now)
-    @data, @number = @task.get_data
+    update_attribute(:data_pack_id, data.id)
+    data.send_to_client!
     if data
-      EM.connect(ip, port, Sender, @data) do |server|
+      EM.connect(ip, port, Sender, data.input_data) do |server|
         server.callback {
         }
       end
@@ -18,6 +19,8 @@ class Client < ActiveRecord::Base
   end
 
   def receive_task(data)
+    data_pack.update_attribute(:output_data, data)
+    data_pack.recieve!
     task.write_data(data, number) if !@number.nil?
     update_attribute(:available, true)
     save
@@ -37,8 +40,8 @@ class Client < ActiveRecord::Base
 
   def terminate
     @task.add_timeouted_data(@data, @number)
+    data_pack.terminate!
     self.inactive = true
-    self.number = nil
     save
   end
 
@@ -54,10 +57,6 @@ class Client < ActiveRecord::Base
 
 protected
   
-  def data
-    @data ||= []
-  end
-
   def setup_client
     self.available = true
     self.port ||= "80"
