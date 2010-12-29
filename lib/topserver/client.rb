@@ -3,13 +3,12 @@ class Client < ActiveRecord::Base
 
   attr_accessor :data
 
-  before_create :set_client_available
+  before_create :setup_client
 
   def send_task
     update_attribute(:available, false)
     update_attribute(:send_at, Time.now)
     @data, @number = @task.get_data
-    self.save
     if data
       EM.connect(ip, port, Sender, @data) do |server|
         server.callback {
@@ -59,7 +58,8 @@ protected
     @data ||= []
   end
 
-  def set_client_available
+  def setup_client
     self.available = true
+    self.port ||= "80"
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Logger do
+describe TopserverLogger do
   context '#info' do
     it 'uses puts' do
       subject.should_receive(:puts).with('hoho')

@@ -5,7 +5,9 @@ TEST_ENV = true unless defined?(TEST_ENV)
 require 'rspec'
 require 'sqlite3'
 require 'database_cleaner'
+require 'factory_girl'
 require 'topserver'
+require 'spec/factories'
 
 def clean_file(filename)
   File.delete(filename) if File.exists?(filename)

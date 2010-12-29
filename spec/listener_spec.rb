@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Listener do
   before :each do
     @server = Server.new
-    @server.tasks << Task.new(:name => 'foo')
     @listener = Listener.new('')
     @listener.server = @server
   end
@@ -11,6 +10,7 @@ describe Listener do
   describe '#receive_data' do
     context 'on register' do
       before :each do
+        @task = Factory :task
         @data = 'REGISTER 123.123.123.123 5555 foo'
       end
 
@@ -18,7 +18,7 @@ describe Listener do
         lambda {
           @listener.stub!(:send_data)
           @listener.receive_data(@data)
-        }.should change(@server.clients, :size).by(1)
+        }.should change(Client, :count).by(1)
       end
 
       it 'responds with new client id' do
@@ -29,12 +29,13 @@ describe Listener do
 
     context 'on data' do
       before :each do
-        @data = 'RESPONSE 1 dummy_data'
-        @server.register_client( :task_name => 'foo')
+        @client = Factory :client
+        @data = "RESPONSE #{@client.id} dummy_data"
       end
 
       it 'saves data' do
-        @server.clients.first.should_receive(:receive_task).with('dummy_data')
+        @client.should_receive(:receive_task).with('dummy_data')
+        @server.stub!(:find_client).and_return(@client)
         @listener.stub!(:send_data)
         @listener.receive_data(@data)
       end
@@ -48,9 +49,8 @@ describe Listener do
 
     context 'on data for inactive client' do
       before :each do
-        @server.register_client( :task_name => 'foo')
-        @server.clients.first.instance_variable_set(:@inactive,true)
-        @data = 'RESPONSE 1 dummy_data'
+        client = Factory :client, :inactive => true
+        @data = "RESPONSE #{client.id} dummy_data"
         @server.register_client( :task_name => 'foo')
       end
 

@@ -23,4 +23,5 @@ group :test do
   gem "rspec"
   gem "sqlite3"
   gem "database_cleaner"
+  gem "factory_girl"
 end
