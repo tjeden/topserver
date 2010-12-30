@@ -30,7 +30,7 @@ describe Task do
 
     context 'when there are data' do
       before :each do
-        @task.instance_variable_set(:@end_of_data, false)
+        @task.end_of_data = false
       end
 
       it 'is false' do
@@ -38,41 +38,23 @@ describe Task do
       end
     end
 
-    context "when there aren't any data" do
+    context "when there aren't left data" do
       before :each do
-        @task.instance_variable_set(:@end_of_data, true)
+        @task.end_of_data = true
       end
 
-      context 'and counter is eql 0' do
-        before :each do
-          @task.instance_variable_set(:@counter,0)
-        end
-        
+      context 'and there are waiting data_packs' do
         it 'is false' do
+          @task.data_packs << Factory(:data_pack, :workflow_state => 'waiting')
           @task.completed?.should be_false
         end
       end
 
-      context 'and counter is diffrent from 0' do
-        before :each do
-          @task.instance_variable_set(:@counter, 2)
-        end
-        
-        context 'and counter is diffrent from recieved' do
-          it 'is false' do
-            @task.instance_variable_set(:@recieved, 1)
-            @task.completed?.should be_false
-          end
-        end
-
-        context 'and counter is eql with recieved' do
-          it 'is true' do
-            @task.instance_variable_set(:@recieved, 2)
-            @task.completed?.should be_true
-          end
+      context 'and there arent counter is eql with recieved' do
+        it 'is true' do
+          @task.completed?.should be_true
         end
       end
-
     end
   end
 
@@ -90,14 +72,4 @@ describe Task do
     end
   end
 
-  describe '#add_timeouted_data' do
-    before :each do
-      @task = Task.new( :name => 'foo')
-      @task.add_timeouted_data('dummy', 2)
-    end
-
-    it 'adds data to timeouted' do
-      @task.get_data.should eql(['dummy', 2])
-    end
-  end
 end

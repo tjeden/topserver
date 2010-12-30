@@ -72,12 +72,11 @@ describe Server do
     context 'when there is availible client and task' do
       before :each do
         @task = Factory :task
-#@server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
         @client = Factory :client
-        @server.clients.stub!(:clients).and_return([@client])
+        @server.stub!(:clients).and_return([@client])
       end
 
-      xit 'sends task' do
+      it 'sends task' do
         @client.should_receive(:send_task)
         @server.send_tasks_to_clients
       end
@@ -85,10 +84,9 @@ describe Server do
 
     context 'when client is unavailible ' do
       before :each do
-        @task = Task.new( :name => 'foo')
-        @server.tasks << @task
+        @task = Factory :task
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
-        @server.clients.first.stub!(:available?).and_return(false)
+        @server.clients.first.update_attribute(:available, false)
       end
 
       it 'does not send task' do
@@ -99,16 +97,14 @@ describe Server do
 
     context 'when client is availible but task is completed' do
       before :each do
-        @task = Factory :task, :completed => true
+        @task = Factory :task
         @task.stub!(:completed?).and_return(true)
-#  @server.stub(:tasks).and_return([@task])
-#        @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
-        @client = Factory :client 
+        @client = Factory :client, :task => @task
         @client.stub!(:available?).and_return(true)
         @server.stub(:clients).and_return([@client])
       end
 
-      xit 'does not send task' do
+      it 'does not send task' do
         @client.should_not_receive(:send_task)
         @server.send_tasks_to_clients
       end

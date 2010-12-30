@@ -31,17 +31,17 @@ describe Listener do
       before :each do
         @client = Factory :client
         @data = "RESPONSE #{@client.id} dummy_data"
+        @server.stub!(:find_client).and_return(@client)
       end
 
       it 'saves data' do
         @client.should_receive(:receive_task).with('dummy_data')
-        @server.stub!(:find_client).and_return(@client)
         @listener.stub!(:send_data)
         @listener.receive_data(@data)
       end
 
       it 'responds with succcess status' do
-        @server.clients.first.stub!(:receive_task)
+        @client.stub!(:receive_task)
         @listener.should_receive(:send_data).with('OK')
         @listener.receive_data(@data)
       end

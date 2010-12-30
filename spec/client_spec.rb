@@ -28,8 +28,8 @@ describe Client do
       @client.available?
     end
 
-    xit 'has blank data' do
-      @client.data.should be_nil
+    it 'has blank data_pack' do
+      @client.data_pack.should be_nil
     end
 
     it 'has blank send_at' do
@@ -40,8 +40,9 @@ describe Client do
   describe '#send_task' do
     before :each do
       @task = Factory :task
-      @task.stub!(:get_data).and_return('test',1)
-      @client = Client.new( :ip => '192.168.0.13', :task => @task )
+      @data_pack = Factory :data_pack, :task => @task
+      @task.stub!(:get_data).and_return(@data_pack)
+      @client = Client.create( :ip => '192.168.0.13', :task => @task )
     end
 
     it 'sends post to client address' do
@@ -55,13 +56,16 @@ describe Client do
       @client.send_at.should_not be_nil
     end
 
-    #why?
-    xit 'sets available to false' do
+    it 'sets available to false' do
       EM.stub!(:connect)
       @client.send_task
-      @client.reload
-      puts @client.inspect
       @client.should_not be_available
+    end
+
+    it 'sets data_pack to sent' do
+      EM.stub!(:connect)
+      @client.send_task
+      @data_pack.should be_sent
     end
   end
 
@@ -82,7 +86,7 @@ describe Client do
 
     context 'when client is not available' do
       before :each do 
-        @client.stub!(:available?).and_return(false) 
+        @client.available = false 
       end
 
       context 'and task was sent over 60 seconds ago' do
@@ -119,7 +123,8 @@ describe Client do
     before :each do
       @task = Factory :task
       @task.stub!(:add_timeouted_data)
-      @client = Client.new( :task => @task)
+      @data_pack = Factory(:data_pack, :workflow_state => 'sent')
+      @client = Client.new( :task => @task, :data_pack => @data_pack)
       @client.instance_variable_set(:@available, false)
       @client.instance_variable_set(:@number, 13)
       @client.terminate
@@ -133,8 +138,8 @@ describe Client do
       @client.should be_inactive
     end
 
-    xit 'sets number to nil' do
-      @client.instance_variable_get(:@number).should be_nil
+    it 'sets data_pack to waiting' do
+      @data_pack.should be_waiting
     end
   end
 

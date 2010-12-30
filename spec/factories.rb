@@ -8,3 +8,9 @@ Factory.define :client do |c|
   c.port "8080"
   c.association :task
 end
+
+Factory.define :data_pack do |d|
+  d.association :task
+  d.input_data "test"
+  d.workflow_state "waiting"
+end
