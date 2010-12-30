@@ -1,5 +1,5 @@
 class Result
-  include MongoMapper::Document
+#  include MongoMapper::Document
 
-  key :data, String
+#  key :data, String
 end

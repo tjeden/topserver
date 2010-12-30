@@ -9,17 +9,20 @@ end
 
 EventMachine.run {
   #temporary 
-  Result.delete_all
   DataPack.delete_all
   Client.delete_all
-  Task.first.update_attribute(:counter, 0)
+  Task.first.update_attributes(:counter =>  0, :end_of_data => 0, :workflow_state => 'working')
 
   server = Server.new
   server.log "Top server started on ip: #{opts[:ip]} port: #{opts[:port]}"
   EM::PeriodicTimer.new(0.25) do
     server.send_tasks_to_clients
-    server.close_tasks
+  end
+  EM::PeriodicTimer.new(1) do
     server.check_timeouts
+  end
+  EM::PeriodicTimer.new(2) do
+    server.close_tasks
   end
   EM.start_server opts[:ip], opts[:port], Listener do |conn|
     conn.server = server

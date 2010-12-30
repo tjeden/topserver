@@ -19,8 +19,8 @@ else
 end
 
 # MongoMapper database initialization
-MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-MongoMapper.database = "#topserver"
+#MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
+#MongoMapper.database = "#topserver"
 
 # Serwer files
 require 'lib/topserver/server'

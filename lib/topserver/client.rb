@@ -6,11 +6,11 @@ class Client < ActiveRecord::Base
 
   def send_task
     data = @task.get_data
-    update_attribute(:available, false)
-    update_attribute(:send_at, Time.now)
-    update_attribute(:data_pack_id, data.id)
-    data.send_to_client!
     if data
+      update_attribute(:available, false)
+      update_attribute(:send_at, Time.now)
+      update_attribute(:data_pack_id, data.id)
+      data.send_to_client!
       EM.connect(ip, port, Sender, data.input_data) do |server|
         server.callback {
         }
@@ -39,7 +39,6 @@ class Client < ActiveRecord::Base
   end
 
   def terminate
-    @task.add_timeouted_data(@data, @number)
     data_pack.terminate!
     self.inactive = true
     save

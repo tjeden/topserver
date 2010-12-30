@@ -4,8 +4,8 @@ class CreateDataPacks < ActiveRecord::Migration
     create_table :data_packs do |t|
       t.integer :task_id
       t.string :workflow_state
-      t.text :input_data
-      t.text :output_data
+      t.binary :input_data
+      t.binary :output_data
     end
   end
    

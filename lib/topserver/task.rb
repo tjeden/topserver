@@ -11,20 +11,20 @@ class Task < ActiveRecord::Base
     state :closed
   end
 
-  attr_accessor :recieved, :timeouted, :extension
+  attr_accessor :extension
 
   validates_presence_of :name
 
   before_create :setup_task
 
   def get_data
-    if timeouted.size > 0
-      timeouted.pop
+    if timeouted.present?
+      timeouted.first
     else
       data = nil
       unless end_of_data
         data = extension.read(counter)
-        end_of_data = true if data.nil?
+        update_attribute(:end_of_data, true) if data.nil?
       end
       if data
         increment_counter(data)
@@ -41,19 +41,17 @@ class Task < ActiveRecord::Base
   end
 
   def close_task
-    Result.all.each do |res|
-      extension.write(res.data)
-    end
+    data_packs.each { |dp| extension.write(dp.output_data)}
     extension.close_output
     close!
   end
 
   def completed?
-    !closed? && self.end_of_data && data_pack.all?{ |d| d.workflow_state == "recieved" }
+    !closed? && self.end_of_data && data_packs.all?{ |d| d.workflow_state == "recieved" }
   end
 
-  def add_timeouted_data(data, number) 
-    timeouted << [data,number] 
+  def timeouted
+    data_packs.find_all_by_workflow_state("waiting")
   end
 
 protected
@@ -62,10 +60,6 @@ protected
     self.timeout = 3
     @end_of_data = false
     @timeouted = []
-  end
-
-  def timeouted
-    @timeouted ||= []
   end
 
   def extension
@@ -77,7 +71,4 @@ protected
     save
   end
 
-  def increment_recieved
-    @recieved = recieved + 1
-  end
 end
