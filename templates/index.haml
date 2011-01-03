@@ -2,25 +2,26 @@
   .entry
     %h2.title 
       %a Lista zadań
-  %table
-    %tr
-      %td id
-      %td name
-      %td workflow_state
-      %td source
-      %td output
-      %td extension_name
-      %td timeout
-      %td end_of_data
-    - Task.all.each do |task|
-      %tr
-        %td= task.id
-        %td= task.name
-        %td= task.workflow_state
-        %td= task.source
-        %td= task.output
-        %td= task.extension_name
-        %td= task.timeout
-        %td= task.end_of_data
+    %table
+      %tr.meta
+        %td id
+        %td name
+        %td workflow_state
+        %td source
+        %td output
+        %td extension_name
+        %td timeout
+        %td end_of_data
+      - Task.all.each do |task|
+        %tr
+          %td= task.id
+          %td= task.name
+          %td= task.workflow_state
+          %td= task.source
+          %td= task.output
+          %td= task.extension_name
+          %td= task.timeout
+          %td= task.end_of_data
+    %a{ :href => '/tasks/new' } Nowe zadanie
 
 #container

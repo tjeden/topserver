@@ -9,9 +9,9 @@ end
 
 EventMachine.run {
   #temporary 
-#  DataPack.delete_all
-#  Client.delete_all
-#  Task.first.update_attributes(:counter =>  0, :end_of_data => 0, :workflow_state => 'working')
+  DataPack.delete_all
+  Client.delete_all
+  Task.first.update_attributes(:counter =>  0, :end_of_data => 0, :workflow_state => 'working')
 
   server = Server.new
   server.log "Top server started on ip: #{opts[:ip]} port: #{opts[:port]}"

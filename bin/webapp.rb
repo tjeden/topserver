@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'bundler/setup'
 require 'sinatra'
 require 'brb'
 require 'haml'
@@ -13,6 +14,11 @@ set :public, File.dirname(__FILE__) + '/../public'
 
 get '/' do
   haml :index
+end
+
+get '/tasks/new' do
+  @task = Task.new
+  haml :new_task
 end
 
 get '/clients_history' do
