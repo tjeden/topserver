@@ -5,6 +5,9 @@ require 'haml'
 require 'sinatra/static_assets'
 require 'json'
 
+$LOAD_PATH << File.join(File.dirname(__FILE__),"..")
+require 'lib/topserver'
+
 set :views, File.dirname(__FILE__) + '/../templates'
 set :public, File.dirname(__FILE__) + '/../public'
 

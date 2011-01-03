@@ -1,5 +1,26 @@
-!!!
-= javascript_script_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" 
-= javascript_script_tag "js/highcharts.js" 
-= javascript_script_tag "js/application.js"
+.post
+  .entry
+    %h2.title 
+      %a Lista zadań
+  %table
+    %tr
+      %td id
+      %td name
+      %td workflow_state
+      %td source
+      %td output
+      %td extension_name
+      %td timeout
+      %td end_of_data
+    - Task.all.each do |task|
+      %tr
+        %td= task.id
+        %td= task.name
+        %td= task.workflow_state
+        %td= task.source
+        %td= task.output
+        %td= task.extension_name
+        %td= task.timeout
+        %td= task.end_of_data
+
 #container
