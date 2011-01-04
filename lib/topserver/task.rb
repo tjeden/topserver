@@ -13,7 +13,8 @@ class Task < ActiveRecord::Base
 
   attr_accessor :extension
 
-  validates_presence_of :name
+  validates_presence_of :name, :extension_name, :message => "nie moze byc puste"
+  validates_numericality_of :timeout, :greater_than => 0, :message => "musi byc liczba wieksze od 0", :if => Proc.new { |t| t.timeout.present? }
 
   before_create :setup_task
 

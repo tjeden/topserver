@@ -1,25 +1,26 @@
 !!!
-%head
-  = javascript_script_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" 
-  = javascript_script_tag "js/highcharts.js" 
-  = stylesheet_link_tag 'css/style.css'
-  = stylesheet_link_tag 'css/custom.css'
-  /= javascript_script_tag "js/application.js"
+%html
+  %head
+    = javascript_script_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" 
+    = javascript_script_tag "js/highcharts.js" 
+    = stylesheet_link_tag 'css/style.css'
+    = stylesheet_link_tag 'css/custom.css'
+    /= javascript_script_tag "js/application.js"
 
-%body
-  #wrapper
-    #header
-      #logo
-        %h1
-          %a{ :href => "" } Topserver
-    #menu
-      %ul
-        %li.current_page_item    
-          %a Home
-        %li
-          %a Zadania
-    #page
-      #page-bgtop
-        #page-bgbtm
-          #content
-            = yield
+  %body
+    #wrapper
+      #header
+        #logo
+          %h1
+            %a{ :href => "/" } Topserver
+      #menu
+        %ul
+          %li.current_page_item    
+            %a Home
+          %li
+            %a Zadania
+      #page
+        #page-bgtop
+          #page-bgbtm
+            #content
+              = yield

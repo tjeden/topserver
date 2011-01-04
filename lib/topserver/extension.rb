@@ -1,5 +1,6 @@
 class Extension
   attr_reader :input_file, :output_file, :delimeter
+  @@children =[]
 
   def initialize(input_file, output_file, delimeter)
     @input_file = input_file
@@ -25,6 +26,10 @@ class Extension
 
   def output
     raise 'Should be implemented in subclass'
+  end
+
+  def self.children
+    @@children
   end
 
 end

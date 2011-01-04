@@ -12,13 +12,28 @@ require 'lib/topserver'
 set :views, File.dirname(__FILE__) + '/../templates'
 set :public, File.dirname(__FILE__) + '/../public'
 
+helpers do
+  def error_message_on(element, method)
+     
+  end
+end
+
 get '/' do
   haml :index
 end
 
-get '/tasks/new' do
+get '/new_task' do
   @task = Task.new
   haml :new_task
+end
+
+post '/create_task' do
+  @task = Task.new(params[:task])
+  if @task.save
+    redirect '/' 
+  else
+    haml :new_task
+  end
 end
 
 get '/clients_history' do

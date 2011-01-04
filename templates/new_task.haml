@@ -1,0 +1,42 @@
+.post
+  .entry
+    %h2.title 
+      %a Nowe zadanie
+    %form{ :method => "post", :action =>"/create_task"}
+      %p
+        Nazwa *: 
+        %br/
+        %input{ :type => 'text', :name => 'task[name]', :value => @task.name } 
+        %span.error
+          = @task.errors[:name].to_sentence
+      %p
+        Nazwa klasy rozszerzenia *:
+        %br/
+        %select{ :name => 'task[extension_name]'}
+          - Extension.children.each do |extension|
+            %option{ :value => extension, :selected => (extension == @task.extension_name)}
+              = extension
+        %span.error
+          = @task.errors[:extension_name].to_sentence
+      %p
+        Nazwa pliku źródłowego:
+        %br/
+        %input{ :type => 'text', :name => 'task[source]', :value => @task.source } 
+        %span.error
+          = @task.errors[:source].to_sentence
+      %p
+        Nazwa pliku wyjściowego:
+        %br/
+        %input{ :type => 'text', :name => 'task[output]', :value => @task.output } 
+        %span.error
+          = @task.errors[:output].to_sentence
+      %p 
+        Timeout:
+        %br/
+        %input{ :type => 'text', :name => 'task[timeout]', :value => @task.timeout } 
+        %span.error
+          = @task.errors[:timeout].to_sentence
+      %p      
+        %input{ :type => 'submit', :value => 'Zapisz' }
+        %a{ :href => '/'} anuluj
+    
