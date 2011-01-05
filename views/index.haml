@@ -12,6 +12,7 @@
         %td extension_name
         %td timeout
         %td end_of_data
+        %td &nbsp;
       - Task.all.each do |task|
         %tr
           %td= task.id
@@ -22,6 +23,9 @@
           %td= task.extension_name
           %td= task.timeout
           %td= task.end_of_data
+          %td
+            %a{ :href => "/edit_task/#{task.id}" } Edytuj
+            %a{ :href => "/delete_task/#{task.id}" } Usuń
     %a{ :href => '/new_task' } Nowe zadanie
 
 #container

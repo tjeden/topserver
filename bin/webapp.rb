@@ -9,32 +9,10 @@ require 'json'
 $LOAD_PATH << File.join(File.dirname(__FILE__),"..")
 require 'lib/topserver'
 
-set :views, File.dirname(__FILE__) + '/../templates'
+set :views, File.dirname(__FILE__) + '/../views'
 set :public, File.dirname(__FILE__) + '/../public'
 
-helpers do
-  def error_message_on(element, method)
-     
-  end
-end
-
-get '/' do
-  haml :index
-end
-
-get '/new_task' do
-  @task = Task.new
-  haml :new_task
-end
-
-post '/create_task' do
-  @task = Task.new(params[:task])
-  if @task.save
-    redirect '/' 
-  else
-    haml :new_task
-  end
-end
+require 'lib/webapp/tasks'
 
 get '/clients_history' do
   content_type :json

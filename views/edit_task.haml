@@ -1,0 +1,6 @@
+.post
+  .entry
+    %h2.title 
+      %a Edycja zadania
+    %form{ :method => "post", :action =>"/update_task/#{@task.id}"}
+      = haml :task_form, :layout => false 

@@ -1,0 +1,6 @@
+.post
+  .entry
+    %h2.title 
+      %a Nowe zadanie
+    %form{ :method => "post", :action =>"/create_task"}
+      = haml :task_form, :layout => false 
