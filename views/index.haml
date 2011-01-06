@@ -15,7 +15,9 @@
       - Task.all.each do |task|
         %tr
           %td= task.id
-          %td= task.name
+          %td
+            %a{ :href => "/clients/#{task.id}" }
+              = task.name
           %td= task.workflow_state
           %td= task.source
           %td= task.output
@@ -24,7 +26,7 @@
           %td.action-link
             %a{ :href => "/edit_task/#{task.id}" } Edytuj
             %form{ :method => "post", :action =>"/delete_task/#{task.id}"}
-              %input{ :type => 'submit', :value => 'Usuń', :onclick => "javascript:return confirm('Czy na pewno chcesz usuńąć to zadanie?')"}
-    %a{ :href => '/new_task' } Nowe zadanie
+              %input{ :type => 'submit', :value => 'Usuń', :onclick => "javascript:return confirm('Czy na pewno chcesz usunąć to zadanie?')"}
+  %a{ :href => '/new_task' } Nowe zadanie
 
 #container

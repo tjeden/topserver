@@ -1,0 +1,26 @@
+.post
+  .entry
+    %h2.title 
+      %a 
+        Klienty zadania
+        = @task.name
+    %table
+      %tr.meta
+        %td id
+        %td ip
+        %td port
+        %td send_at
+        %td dostępny
+        %td nieaktywny
+      - @task.clients.each do |client|
+        %tr
+          %td= client.id
+          %td= client.ip
+          %td= client.port
+          %td
+            - if client.send_at.present?
+              = client.send_at.strftime("%Y-%m-%d %H:%M:%S")
+          %td= client.available
+          %td= client.inactive
+  %a{ :href => '/' } Powrót do listy zadań
+    

@@ -30,3 +30,12 @@ post '/update_task/:id' do |id|
   end
 end
 
+post '/delete_task/:id' do |id|
+  Task.find(id).delete
+  redirect '/'
+end
+
+get '/clients/:id' do |id|
+  @task = Task.find(id)
+  haml :clients
+end
