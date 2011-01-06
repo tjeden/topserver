@@ -11,7 +11,6 @@
         %td output
         %td extension_name
         %td timeout
-        %td end_of_data
         %td &nbsp;
       - Task.all.each do |task|
         %tr
@@ -22,10 +21,10 @@
           %td= task.output
           %td= task.extension_name
           %td= task.timeout
-          %td= task.end_of_data
-          %td
+          %td.action-link
             %a{ :href => "/edit_task/#{task.id}" } Edytuj
-            %a{ :href => "/delete_task/#{task.id}" } Usuń
+            %form{ :method => "post", :action =>"/delete_task/#{task.id}"}
+              %input{ :type => 'submit', :value => 'Usuń', :onclick => "javascript:return confirm('Czy na pewno chcesz usuńąć to zadanie?')"}
     %a{ :href => '/new_task' } Nowe zadanie
 
 #container

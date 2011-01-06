@@ -6,3 +6,7 @@ table {
   color: red;
   padding-left: 10px;
 }
+
+.action-link form{
+  display: inline;
+}
