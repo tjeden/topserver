@@ -1,7 +1,8 @@
 class FileExtension < Extension
 
-  def read
+  def read(counter)
     #TODO I don't like this -2
+    source.pos = counter
     data = source.gets(@delimeter)
     if data
       data[0..-2]
