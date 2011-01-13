@@ -70,7 +70,12 @@ describe Listener do
         @listener.stub!(:send_data)
         lambda {
           @listener.receive_data(@data)
-        }.should change(@server.clients_history, :size).by(1)
+        }.should change(Statistic, :count).by(1)
+        statistic = Statistic.last
+        statistic.clients_total.should eql(2)
+        statistic.available_clients.should eql(2)
+        statistic.inactive_clients.should eql(0)
+        statistic.active_clients.should eql(2)
       end
 
       it 'responds with succcess status' do

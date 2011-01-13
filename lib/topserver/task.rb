@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   has_many :clients
   has_many :data_packs
-  has_many :statistic
+  has_many :statistics
 
   include Workflow
 
@@ -56,6 +56,10 @@ class Task < ActiveRecord::Base
     data_packs.find_all_by_workflow_state("waiting")
   end
 
+  def update_statistics
+    statistics.create( :clients_total => clients_total, :active_clients => active_clients, :available_clients => available_clients, :inactive_clients  => inactive_clients)
+  end
+
 protected
 
   def setup_task
@@ -73,4 +77,19 @@ protected
     save
   end
 
+  def clients_total
+    clients.size 
+  end
+
+  def active_clients
+    clients.find_all { |c| c.active? }.size
+  end
+
+  def available_clients
+    clients.available.size
+  end
+
+  def inactive_clients
+    clients.inactive.size
+  end
 end

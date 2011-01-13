@@ -12,7 +12,7 @@ class Server
     if (task = find_task_by_name(opts[:task_name]))
       @max_client_number += 1
       client = Client.create( :ip => opts[:ip], :task => task, :port => opts[:port], :number => @max_client_number)
-      update_clients_history
+      task.update_statistics
       client.id
     else
       -1
@@ -41,7 +41,7 @@ class Server
       if client.terminated? 
         log 'Client lost'
         client.terminate 
-        update_clients_history
+        client.task.update_statistics
       end
     end
   end
@@ -56,10 +56,6 @@ class Server
 
   def logger
     @logger
-  end
-
-  def update_clients_history
-    @clients_history << [Time.now, active_clients]
   end
 
   def active_clients

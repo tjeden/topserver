@@ -34,4 +34,4 @@ require 'lib/topserver/extensions_loader'
 require 'lib/topserver/task_loader'
 require 'lib/topserver/result'
 require 'lib/topserver/datapack'
-
+require 'lib/topserver/statistic'

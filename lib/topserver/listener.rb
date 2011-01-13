@@ -19,7 +19,7 @@ class Listener < EM::Connection
         if client.inactive?
           server.log 'Client is back'
           client.back_to_life
-          server.update_clients_history
+          client.task.update_statistics
         else
           client.receive_task(data.sub(/RESPONSE \d* /,""))
         end

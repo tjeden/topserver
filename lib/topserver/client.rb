@@ -2,6 +2,9 @@ class Client < ActiveRecord::Base
   belongs_to :task
   belongs_to :data_pack
 
+  scope :available, where(:available => true)
+  scope :inactive, where(:inactive => true)
+
   before_create :setup_client
 
   def send_task

@@ -44,9 +44,12 @@ describe Server do
     end
 
     it 'saves time in history' do
-      @server.clients_history.size.should eql(1)
-      @server.clients_history[0][0].is_a?(Time).should be_true
-      @server.clients_history[0][1].should eql(1)
+      @task.statistics.size.should eql(1)
+      statistic = @task.statistics.last
+      statistic.clients_total.should eql(1)
+      statistic.available_clients.should eql(1)
+      statistic.inactive_clients.should eql(0)
+      statistic.active_clients.should eql(1)
     end
 
     describe 'with non existing task' do
@@ -130,7 +133,12 @@ describe Server do
         @terminated_client.stub!(:terminate)
         lambda{
           @server.check_timeouts 
-        }.should change(@server.clients_history, :size).by(1)
+        }.should change(Statistic, :count).by(1)
+        statistic = @task.statistics.last
+        statistic.clients_total.should eql(1)
+        statistic.available_clients.should eql(1)
+        statistic.inactive_clients.should eql(0)
+        statistic.active_clients.should eql(1)
       end
     end
   end
