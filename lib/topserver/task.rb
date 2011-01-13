@@ -1,6 +1,7 @@
 class Task < ActiveRecord::Base
   has_many :clients
   has_many :data_packs
+  has_many :statistic
 
   include Workflow
 
