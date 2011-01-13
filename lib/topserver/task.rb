@@ -58,7 +58,7 @@ class Task < ActiveRecord::Base
 protected
 
   def setup_task
-    self.timeout = 3
+    self.timeout ||= 3
     @end_of_data = false
     @timeouted = []
   end

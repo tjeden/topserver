@@ -114,7 +114,7 @@ describe Server do
   describe '#check_timeouts' do
     context 'when there is client with terminated task' do
       before :each do
-        @task = Task.create( :name => 'foo')
+        @task = Task.create( :name => 'foo', :extension_name => 'binary_file_extension')
         @server.register_client( :task_name => 'foo', :ip => '192.168.0.13')
         @terminated_client = @server.clients.first
         @terminated_client.stub!(:terminated?).and_return(true)
