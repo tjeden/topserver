@@ -14,4 +14,12 @@ class DataPack < ActiveRecord::Base
     end
     state :recieved
   end
+
+  def send_to_client
+    update_attribute(:send_date, Time.now)
+  end
+
+  def recieve
+    update_attribute(:recieve_date, Time.now)
+  end
 end
