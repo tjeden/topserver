@@ -14,18 +14,17 @@ set :public, File.dirname(__FILE__) + '/../public'
 
 require 'lib/webapp/tasks'
 
-get '/clients_history' do
-  content_type :json
-  server = BrB::Tunnel.create(nil, "brb://localhost:5556")
-  res = server.clients_history_block
-  EM.stop
-  res.map{|e| [e[0].to_i,e[1]]}.to_json
+get '/stats' do
+  haml :stats 
 end
 
-get '/active_clients' do
+get '/clients_history' do
   content_type :json
-  server = BrB::Tunnel.create(nil, "brb://localhost:5556")
-  res = server.active_clients_block
-  EM.stop
-  res.to_json
+  Statistic.all.map{ |s| [s.updated_at.to_i, s.clients_total, s.available_clients, s.inactive_clients, s.active_clients]}.to_json
+end
+
+get '/current_clients' do
+  content_type :json
+  s = Statistic.last
+  [s.clients_total, s.available_clients, s.inactive_clients, s.active_clients].to_json
 end

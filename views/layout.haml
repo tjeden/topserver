@@ -5,7 +5,7 @@
     = javascript_script_tag "/js/highcharts.js" 
     = stylesheet_link_tag '/css/style.css'
     = stylesheet_link_tag '/css/custom.css'
-    /= javascript_script_tag "/js/application.js"
+    = javascript_script_tag "/js/application.js"
 
   %body
     #wrapper
@@ -16,9 +16,10 @@
       #menu
         %ul
           %li.current_page_item    
-            %a Home
+            %a{:href => '/'} Zadania
           %li
-            %a Zadania
+            %a{:href => '/stats'} Statystyki
+            
       #page
         #page-bgtop
           #page-bgbtm

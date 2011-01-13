@@ -10,3 +10,7 @@ table {
 .action-link form{
   display: inline;
 }
+
+#container{
+  width: 800px;
+}

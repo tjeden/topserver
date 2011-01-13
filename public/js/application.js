@@ -8,25 +8,23 @@ $(document).ready(function(){
 				renderTo: 'container',
         events: {
           load: function() {
-            var series = this.series[0];
+            var series = this.series;
             setInterval(function() {
-              $.getJSON('active_clients', null, function(data) {
-                  var y = data;
+              $.getJSON('current_clients', null, function(data) {
                   var x = (new Date()).getTime() // current time
-                  series.addPoint([x, y], true, true);
+                  for (i = 0; 0 < 4; i = i + 1){
+                    series[i].addPoint([x, data[i]], true, true);
+                  }
               });
-            }, 1000);
+            }, 2000);
           }
         }
 			},
 			
 			title: {
-				text: 'Liczba aktywnych klientów'
+				text: 'Liczba klientów'
 			},
 			
-			subtitle: {
-				text: 'TopServer'
-			},
 			
 			xAxis: {
 				type: 'datetime',
@@ -51,14 +49,6 @@ $(document).ready(function(){
 				},
 				showFirstLabel: false
 			}],
-			
-			legend: {
-				align: 'left',
-				verticalAlign: 'top',
-				y: 20,
-				floating: true,
-				borderWidth: 0
-			},
 			
 			tooltip: {
 				shared: true,
@@ -91,6 +81,27 @@ $(document).ready(function(){
 			},
 			
 			series: [{
+				name: 'Wszyscy klienci',
+				lineWidth: 4,
+        pointInterval : 10,
+				marker: {
+					radius: 4
+				}
+      },{
+				name: 'Dostępni klienci',
+				lineWidth: 4,
+        pointInterval : 10,
+				marker: {
+					radius: 4
+				}
+      },{
+				name: 'Nieaktywni klienci',
+				lineWidth: 4,
+        pointInterval : 10,
+				marker: {
+					radius: 4
+				}
+      },{
 				name: 'Aktywni klienci',
 				lineWidth: 4,
         pointInterval : 10,
@@ -99,18 +110,36 @@ $(document).ready(function(){
 				}
 			}]
 		}
-		$.getJSON('clients_history', null, function(data) {
-      clients = [];
-      $.each(data, function(i,e){
-			// split the data return into lines and parse them
-					clients.push([
-            e[0]*1000,
-            e[1]
-					]);
+    if ($('#container').length) {
+      $.getJSON('clients_history', null, function(data) {
+        total = [];
+        available = [];
+        inactive = [];
+        active = [];
+        $.each(data, function(i,e){
+            total.push([
+              e[0]*1000,
+              e[1]
+            ]);
+            available.push([
+              e[0]*1000,
+              e[2]
+            ]);
+            inactive.push([
+              e[0]*1000,
+              e[3]
+            ]);
+            active.push([
+              e[0]*1000,
+              e[1]
+            ]);
+        });
+        options.series[0].data = total;
+        options.series[1].data = available;
+        options.series[2].data = inactive;
+        options.series[3].data = active;
+        
+        chart = new Highcharts.Chart(options);
       });
-      console.log("----");
-			options.series[0].data = clients;
-			
-			chart = new Highcharts.Chart(options);
-		});
+    }
 });
