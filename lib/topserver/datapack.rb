@@ -2,6 +2,8 @@ class DataPack < ActiveRecord::Base
   belongs_to :task
   has_one :client
 
+  scope :recieved, where('recieved_at IS NOT NULL')
+
   include Workflow
 
   workflow do
@@ -16,10 +18,10 @@ class DataPack < ActiveRecord::Base
   end
 
   def send_to_client
-    update_attribute(:send_date, Time.now)
+    update_attribute(:send_at, Time.now)
   end
 
   def recieve
-    update_attribute(:recieve_date, Time.now)
+    update_attribute(:recieved_at, Time.now)
   end
 end

@@ -3,4 +3,12 @@
     %h2.title 
       %a Statystyki serwera
 #container
+.post
+  .entry
+    %p
+      %strong Liczba wysłanych paczek:
+      = DataPack.count
+    %p
+      %strong Liczba odebranych paczek:
+      = DataPack.recieved.count
 
