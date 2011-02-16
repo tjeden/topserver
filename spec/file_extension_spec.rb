@@ -25,10 +25,10 @@ describe FileExtension do
     end
 
     it 'gets next part of data' do
-      @ext.read.should eql('First part')
-      @ext.read.should eql('Second part')
-      @ext.read.should eql('Third part')
-      @ext.read.should eql(nil)
+      @ext.read(0).should eql('First part')
+      @ext.read(11).should eql('Second part')
+      @ext.read(23).should eql('Third part')
+      @ext.read(34).should eql(nil)
     end
   end
 

@@ -18,11 +18,7 @@ else
   ActiveRecord::Base.establish_connection(dbconfig)
 end
 
-# MongoMapper database initialization
-#MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-#MongoMapper.database = "#topserver"
-
-# Serwer files
+# Server files
 require 'lib/topserver/server'
 require 'lib/topserver/task'
 require 'lib/topserver/client'

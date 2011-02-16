@@ -63,7 +63,6 @@ describe Task do
     it 'closes task and file' do
       fe = stub() 
       @task.instance_variable_set(:@extension, fe)
-      fe.should_receive(:close_output)
       @task.should_receive(:close)
       @task.close_task
     end

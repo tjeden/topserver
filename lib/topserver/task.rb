@@ -1,3 +1,4 @@
+# coding: utf-8
 class Task < ActiveRecord::Base
   has_many :clients
   has_many :data_packs
@@ -14,8 +15,8 @@ class Task < ActiveRecord::Base
 
   attr_accessor :extension
 
-  validates_presence_of :name, :extension_name, :message => "nie moze byc puste"
-  validates_numericality_of :timeout, :greater_than => 0, :message => "musi byc liczba wieksze od 0", :if => Proc.new { |t| t.timeout.present? }
+  validates_presence_of :name, :extension_name, :message => "nie może być puste"
+  validates_numericality_of :timeout, :greater_than => 0, :message => "musi być liczbą wiekszą od 0", :if => Proc.new { |t| t.timeout.present? }
 
   before_create :setup_task
 
@@ -43,8 +44,8 @@ class Task < ActiveRecord::Base
   end
 
   def close_task
-    data_packs.each { |dp| extension.write(dp.output_data)}
-    extension.close_output
+    #data_packs.each { |dp| extension.write(dp.output_data)}
+    #extension.close_output
     close!
   end
 
@@ -73,7 +74,7 @@ protected
   end
 
   def increment_counter(data)
-    self.counter += data.size
+    self.counter += @extension.counter_size(data)
     save
   end
 

@@ -6,12 +6,12 @@
         = @task.name
     %table
       %tr.meta
-        %td id
-        %td ip
-        %td port
-        %td send_at
-        %td dostępny
-        %td nieaktywny
+        %td Id
+        %td Adres IP
+        %td Port
+        %td Ostatnio wysłane dane
+        %td Dostępny
+        %td Nieaktywny
       - @task.clients.each do |client|
         %tr
           %td= client.id

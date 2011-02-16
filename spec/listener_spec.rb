@@ -54,7 +54,7 @@ describe Listener do
         @server.register_client( :task_name => 'foo')
       end
 
-      it 'brings client back to live' do
+      it 'brings client back to life' do
         @listener.stub!(:send_data)
         @listener.receive_data(@data)
         @server.clients.first.should_not be_inactive
@@ -66,7 +66,7 @@ describe Listener do
         @listener.receive_data(@data)
       end
 
-      it 'saves clients history' do
+      it "saves client's history" do
         @listener.stub!(:send_data)
         lambda {
           @listener.receive_data(@data)

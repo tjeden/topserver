@@ -6,7 +6,6 @@ class Listener < EM::Connection
   end
 
   def receive_data(data)
-#    puts "Recieved_data: #{data}"
     splitted_data = data.split
     if splitted_data[0] == "REGISTER"
       server.log 'Registering new client'
@@ -23,10 +22,11 @@ class Listener < EM::Connection
         else
           client.receive_task(data.sub(/RESPONSE \d* /,""))
         end
+        send_data "OK"
       else
         @server.log 'non existing client'
+        send_data "ERROR"
       end
-      send_data "OK"
     end
   end
 
